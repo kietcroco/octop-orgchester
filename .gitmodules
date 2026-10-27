@@ -1,0 +1,6 @@
+[submodule "orchester"]
+	path = orchester
+	url = https://github.com/lucasmailland/orchester
+[submodule "octop"]
+	path = octop
+	url = https://github.com/TencentCloud/Octop
