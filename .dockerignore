@@ -1,0 +1,19 @@
+# Build context excludes
+# Repo root is the context; skip upstream submodule git data and the huge pack outputs.
+
+**/.git
+**/node_modules
+**/__pycache__
+**/.venv
+**/.mypy_cache
+**/.ruff_cache
+**/.pytest_cache
+
+# Repomix packs and scratch research output are not build inputs
+.claude/
+research/
+repomix-output.xml
+
+# Container/state data
+**/*.log
+**/.DS_Store

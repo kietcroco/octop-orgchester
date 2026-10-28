@@ -96,7 +96,7 @@
       "unknown": "Không xác định"
     },
     "copyErrorForOctop": "Sao chép thông báo lỗi",
-    "installLogEmpty": "（暂无安装日志）",
+    "installLogEmpty": "(Không có nhật ký cài đặt)",
     "tokenCountPresets": "Điền nhanh",
     "tokenCountPreview": "Khoảng {{label}} tokens ({{exact}})",
     "back": "Quay lại",

@@ -1,24 +1,28 @@
-"""Merge translated vi batches back into vi.json files.
+"""Merge translated vi batches back into the patch source files.
 
 Usage (from repo root):
-    python research/merge_vi_batches.py
+    python octop-orchester/scripts/vi-i18n/merge.py
+
+Writes the merged JSON to octop-orchester/patches/vi-i18n/src-vi/ so the
+upstream submodule is never modified in place. Regenerate patch.diff after.
 """
 import json
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-BATCHES = ROOT / "vi_batches"
+BATCHES = ROOT
+OUT = ROOT.parent.parent / "patches" / "vi-i18n" / "src-vi"
 
 TARGETS = [
-    ("dashboard", "octop/dashboard/src/locales/vi.json"),
-    ("backend", "octop/src/octop/i18n/vi.json"),
+    ("dashboard", "dashboard/src/locales/vi.json"),
+    ("backend", "src/octop/i18n/vi.json"),
 ]
 
 
 def merge(kind: str, out_path: Path) -> int:
     src_dir = BATCHES / f"{kind}_vi"
-    files = sorted(src_dir.glob("batch_*.json"))
+    files = sorted(f for f in src_dir.glob("batch_*.json") if not f.name.endswith("_partial.json"))
     if not files:
         print(f"  {kind}: no translated batches found in {src_dir}", file=sys.stderr)
         return 1
@@ -41,7 +45,7 @@ def main() -> int:
     print("Merging vi batches:")
     rc = 0
     for kind, rel in TARGETS:
-        rc |= merge(kind, ROOT.parent / rel)
+        rc |= merge(kind, OUT / rel)
     return rc
 
 

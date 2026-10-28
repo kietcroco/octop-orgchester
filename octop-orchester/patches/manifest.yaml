@@ -1,0 +1,11 @@
+patch:
+  id: vi-i18n
+  name: Vietnamese (vi) UI localization
+  target_repo: octop
+  base_commit: 890111b7
+  base_describe: v0.9.16-825-g890111b7
+  applies_to:
+    - dashboard/**
+    - src/**
+  strategy: git apply at image build time (Dockerfile stages)
+  status: active

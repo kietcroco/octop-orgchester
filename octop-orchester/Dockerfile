@@ -21,6 +21,12 @@ ARG NPM_REGISTRY=
 ARG NODE_MAX_OLD_SPACE_SIZE=2048
 WORKDIR /build/dashboard
 
+# git is needed to apply patches; the slim image does not ship it
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY octop/dashboard/package.json octop/dashboard/package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm,sharing=locked \
     set -eu; \
@@ -30,6 +36,19 @@ RUN --mount=type=cache,target=/root/.npm,sharing=locked \
     test -x node_modules/.bin/vite
 
 COPY octop/dashboard/ ./
+
+# Apply frontend hunks of every patch (patch paths are octop/-root-relative)
+COPY octop-orchester/patches/ /tmp/patches/
+WORKDIR /build
+RUN set -eu; \
+    for p in /tmp/patches/*/patch.diff; do \
+      echo "applying frontend hunks of $p"; \
+      git apply --include='dashboard/*' --whitespace=nowarn "$p" \
+        || { echo "FAILED: $p"; exit 1; }; \
+    done; \
+    rm -rf /tmp/patches
+
+WORKDIR /build/dashboard
 
 RUN mkdir -p ../src/octop/dashboard
 
@@ -96,6 +115,16 @@ ENV PATH="/app/.venv/bin:$PATH" \
 
 COPY octop/src/ ./src/
 COPY --from=frontend-builder /build/src/octop/dashboard/ ./src/octop/dashboard/
+
+# Apply backend hunks of every patch (patch paths are octop/-root-relative)
+COPY octop-orchester/patches/ /tmp/patches/
+RUN set -eu; \
+    for p in /tmp/patches/*/patch.diff; do \
+      echo "applying backend hunks of $p"; \
+      git apply --include='src/*' --whitespace=nowarn "$p" \
+        || { echo "FAILED: $p"; exit 1; }; \
+    done; \
+    rm -rf /tmp/patches
 
 COPY octop/.env.example ./
 COPY octop/docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
