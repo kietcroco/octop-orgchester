@@ -1,0 +1,531 @@
+{
+  "acp": {
+    "description": "Kết nối chuyên gia lập trình bên ngoài hỗ trợ giao thức ACP. Cấu hình Runner được chia sẻ cho tất cả chuyên gia dưới tài khoản này; có thể bật riêng công cụ acp_runner cho từng chuyên gia bên dưới.",
+    "globalRunnersHint": "Cấu hình Runner sau có hiệu lực với tất cả chuyên gia dưới tài khoản này.",
+    "toolEnabledHint": "Công cụ acp_runner cần bật riêng cho từng chuyên gia, sau khi chuyển chuyên gia ở trên sẽ cấu hình cho chuyên gia hiện tại.",
+    "toolEnabled": "Kích hoạt ủy thác ra ngoài (acp_runner)",
+    "outboundBlockedHint": "Chuyên gia hiện tại đã kích hoạt môi trường hộp cát, không thể kích hoạt hoặc chỉnh sửa Runner bên ngoài. Kích hoạt ủy thác ra ngoài (acp_runner) không bị ảnh hưởng; kết nối qua IDE / octop acp cũng không bị ảnh hưởng.",
+    "outboundBlockedTooltip": "Không thể kích hoạt hoặc chỉnh sửa trong môi trường hộp cát",
+    "runnerUnavailable": "Không khả dụng",
+    "builtin": "Tích hợp",
+    "custom": "Tùy chỉnh",
+    "runner_opencode": "OpenCode",
+    "runner_codebuddy": "CodeBuddy",
+    "runner_claude_code": "Claude Code",
+    "runner_codex": "Codex",
+    "runner_kimi_code": "Kimi Code",
+    "runner_cursor_cli": "Cursor CLI",
+    "runner_pi": "Pi",
+    "intro_opencode": "Chuyên gia lập trình AI mã nguồn mở, cộng tác với Octop qua stdio ACP.",
+    "intro_codebuddy": "Trợ lý mã Tencent Cloud CodeBuddy Code, khởi động bằng codebuddy --acp.",
+    "intro_claude_code": "Trợ lý lập trình thiết bị đầu cuối Anthropic Claude Code.",
+    "intro_codex": "OpenAI Codex CLI, hỗ trợ kết nối giao thức ACP.",
+    "intro_kimi_code": "Moonshot Kimi Code CLI, đăng nhập kimi trước rồi khởi động bằng kimi acp.",
+    "intro_cursor_cli": "Cursor CLI agent, đăng nhập agent hoặc đặt CURSOR_API_KEY trước rồi khởi động bằng agent acp.",
+    "intro_pi": "Chuyên gia lập trình Pi, kết nối ACP qua cầu nối pi-acp (npx -y pi-acp).",
+    "intro_custom": "Runner tùy chỉnh: {{command}}",
+    "runnerNeedsConfig": "Đã kích hoạt, chờ cấu hình lệnh",
+    "clickCardToConfigure": "Vui lòng nhấp vào thẻ để cấu hình lệnh khởi động trước",
+    "create": "Thêm Runner",
+    "createTitle": "Thêm ACP Runner",
+    "editTitle": "Chỉnh sửa Runner",
+    "runnerKey": "Runner ID",
+    "runnerKeyRequired": "Vui lòng điền Runner ID",
+    "runnerKeyInvalid": "Chỉ cho phép chữ cái, số, gạch dưới và gạch ngang",
+    "runnerKeyExists": "Runner ID này đã tồn tại",
+    "command": "Lệnh khởi động",
+    "commandRequired": "Vui lòng điền lệnh khởi động",
+    "args": "Tham số",
+    "argsHelp": "Mỗi dòng một tham số",
+    "env": "Biến môi trường",
+    "envHelp": "KEY=VALUE, mỗi dòng một mục",
+    "trusted": "Runner đáng tin cậy",
+    "toolParseMode": "Chế độ phân tích công cụ",
+    "stdioBufferLimit": "Giới hạn bộ đệm Stdio (byte)",
+    "notSet": "Chưa đặt",
+    "loadFailed": "Tải cấu hình ACP thất bại",
+    "configSaved": "Cấu hình ACP đã được lưu",
+    "configFailed": "Lưu cấu hình ACP thất bại",
+    "createSuccess": "Runner đã được tạo",
+    "deleteTitle": "Xóa {{name}}?",
+    "deleteConfirm": "Sẽ xóa Runner tùy chỉnh này.",
+    "deleteSuccess": "Runner đã bị xóa",
+    "docsHint": "Vui lòng cài đặt và cấu hình chuyên gia ACP cục bộ (như opencode, codebuddy --acp) trước khi kích hoạt Runner.",
+    "chatPermissionTitle": "Chuyên gia bên ngoài cần xác nhận quyền"
+  },
+  "plugins": {
+    "loadError": "Tải plugin thất bại",
+    "saveFailed": "Lưu thất bại",
+    "saved": "Đã lưu",
+    "install": "Cài đặt",
+    "installTitle": "Cài đặt plugin",
+    "installUrlHint": "Vui lòng dán địa chỉ tải xuống trực tiếp của ZIP. GitHub vui lòng sử dụng raw.githubusercontent.com (hoặc liên kết tệp Download / raw), không sử dụng địa chỉ trang /blob/.",
+    "installUrlPlaceholder": "https://raw.githubusercontent.com/org/repo/main/my-plugin.zip",
+    "installFromZip": "Cài đặt từ ZIP",
+    "overwriteInstall": "Ghi đè đã cài đặt",
+    "zipOnly": "Vui lòng chọn tệp .zip",
+    "installSuccess": "Plugin đã được cài đặt",
+    "installFailed": "Cài đặt thất bại",
+    "uninstall": "Gỡ cài đặt",
+    "uninstallSuccess": "Plugin đã được gỡ cài đặt",
+    "uninstallFailed": "Gỡ cài đặt thất bại",
+    "uninstallConfirm": "Bạn có chắc chắn muốn gỡ cài đặt plugin {{id}}?",
+    "empty": "Chưa cài đặt plugin",
+    "adminHint": "Plugin được cài đặt tại ~/.octop/plugins/ trên máy chủ. Trang này chỉ dùng để cài đặt, tải lại, bật/tắt toàn cục, xem chi tiết và gỡ cài đặt.",
+    "guideTitle": "Cách phát triển và nhập plugin",
+    "guideDevelopTitle": "1. Phát triển",
+    "guideDevelopBody": "Tạo một thư mục chứa plugin.yaml và tệp Python đầu vào (như main.py). plugin.yaml cần có id, version, name, kind (tool / skill / hook) và entry. Trong setup(ctx): tool → ctx.tool(...); skill → ctx.skills(\"skills\"); hook → ctx.middleware(...). Có ba loại demo trong thư mục plugins/ của kho để tham khảo.",
+    "guidePackageTitle": "2. Đóng gói",
+    "guidePackageBody": "Đóng gói plugin thành ZIP, và trong gói nén chỉ có thể có một thư mục gốc plugin chứa plugin.yaml (có thể ở thư mục gốc ZIP, hoặc trong thư mục con duy nhất một cấp). Ví dụ: zip -r my-plugin.zip my-plugin/",
+    "guideImportTitle": "3. Nhập",
+    "guideImportBody": "Đặt .zip ở vị trí Octop có thể tải xuống qua HTTP(S), ưu tiên sử dụng liên kết trực tiếp raw. Sau khi cài đặt, đến \"Cá nhân hóa → Plugin\" để cấu hình cho chuyên gia. Demo cục bộ: octop plugin install ./plugins/demo-toolkit --force",
+    "guideExampleTitle": "Ví dụ plugin.yaml tối thiểu",
+    "guideExampleYaml": "id: my-plugin\nversion: 1.0.0\nname: My Plugin\ndescription: Example tool plugin\nicon: icon.svg\ngroup: tools\nkind: tool\nentry: main.py",
+    "groupAll": "Tất cả",
+    "emptyGroup": "Không có plugin trong nhóm này",
+    "groups": {
+      "lifestyle": "Đời sống",
+      "news": "Tin tức",
+      "finance": "Tài chính",
+      "media": "Âm thanh hình ảnh",
+      "fun": "Giải trí",
+      "games": "Trò chơi",
+      "tools": "Công cụ",
+      "ops": "Vận hành"
+    },
+    "groupUnknown": "Khác",
+    "agentHint": "Sau khi plugin được kích hoạt, công cụ của nó mặc định có sẵn cho tất cả chuyên gia; có thể tắt riêng cho từng chuyên gia. Plugin cần API Key vui lòng nhấp \"Cấu hình\" trước. Phiên mới sẽ sử dụng danh sách công cụ mới nhất.",
+    "agentPluginHint": "Plugin đã cài đặt mặc định được bật cho chuyên gia hiện tại. Sau khi tắt, công cụ, kỹ năng và Hook của plugin này sẽ không còn được sử dụng cho chuyên gia này, nhưng cấu hình công cụ hiện có sẽ được giữ lại.",
+    "agentEnabled": "Bật cho chuyên gia hiện tại",
+    "globallyDisabled": "Đã tắt toàn cục",
+    "globalDisabledHint": "Quản trị viên đã tắt toàn cục plugin này, do đó ngay cả khi chuyên gia hiện tại bật cũng không khả dụng.",
+    "noAgent": "Vui lòng chọn một chuyên gia ở thanh bên trước",
+    "noPlugins": "Không có plugin đã cài đặt, vui lòng liên hệ quản trị viên cài đặt plugin trước.",
+    "noTools": "Không có công cụ plugin khả dụng. Vui lòng cài đặt plugin loại tool trước.",
+    "enablePluginFirst": "Vui lòng kích hoạt plugin này trước. Sau khi kích hoạt, công cụ mặc định khả dụng, cũng có thể tắt riêng theo chuyên gia.",
+    "detailToolsHint": "Mặc định bật. Sau khi tắt chỉ có hiệu lực với chuyên gia hiện được chọn ở thanh bên (dùng chung cấu hình với \"Cài đặt công cụ\" của chuyên gia); có hiệu lực từ lượt trò chuyện tiếp theo, không cần khởi động lại.",
+    "configure": "Cấu hình",
+    "colName": "Tên",
+    "colId": "ID",
+    "colVersion": "Phiên bản",
+    "colKind": "Loại",
+    "colGroup": "Nhóm",
+    "colStatus": "Trạng thái",
+    "colTools": "Công cụ",
+    "colActions": "Hành động",
+    "colIcon": "Biểu tượng",
+    "colPath": "Đường dẫn",
+    "colUi": "UI phía trước",
+    "colRequires": "Phụ thuộc",
+    "colPluginId": "ID plugin",
+    "viewDetails": "Xem chi tiết",
+    "detailTitle": "Chi tiết plugin",
+    "detailInfo": "Thông tin cơ bản",
+    "detailEnableHint": "Sau khi kích hoạt plugin sẽ được tải trên máy chủ, công cụ mặc định có sẵn cho chuyên gia.",
+    "visibilitySaved": "Đã cập nhật ai có thể sử dụng plugin này",
+    "visibilityFailed": "Cập nhật phạm vi sử dụng plugin thất bại",
+    "toolDetailTitle": "Chi tiết công cụ",
+    "statusLoaded": "Đã tải",
+    "statusIdle": "Chưa tải",
+    "statusError": "Lỗi",
+    "statusDisabled": "Đã tắt",
+    "reload": "Tải lại",
+    "reloadSuccess": "Plugin đã được tải lại",
+    "reloadFailed": "Tải lại thất bại",
+    "tabInstalled": "Plugin đã cài đặt",
+    "tabAgentTools": "Quản lý công cụ",
+    "tabMarket": "Thị trường plugin",
+    "marketTitle": "Thị trường plugin",
+    "marketHint": "Duyệt các plugin chọn lọc, cài đặt một lần vào máy này.",
+    "marketLoadError": "Tải thị trường plugin thất bại",
+    "marketEmpty": "Danh mục thị trường không có plugin",
+    "marketSearchPlaceholder": "Tìm kiếm thị trường plugin",
+    "marketSearchEmpty": "Không có plugin khớp",
+    "marketInstall": "Cài đặt",
+    "marketInstalled": "Đã cài đặt",
+    "marketUpdate": "Cập nhật",
+    "marketUpdateAvailable": "Có bản cập nhật",
+    "marketUpdateSuccess": "Plugin đã được cập nhật",
+    "marketRefresh": "Làm mới",
+    "totalMarket": "Tổng cộng {{count}}",
+    "emptyHint": "Có thể đến thị trường plugin để cài đặt các plugin chọn lọc vào máy này.",
+    "goToMarket": "Mở thị trường plugin",
+    "colEnabled": "Bật",
+    "colTool": "Công cụ",
+    "colDescription": "Mô tả",
+    "viewCard": "Thẻ",
+    "viewTable": "Bảng",
+    "totalPlugins": "Tổng cộng {{count}} plugin",
+    "totalTools": "Tổng cộng {{count}} công cụ",
+    "enabledSuccess": "Plugin đã được kích hoạt",
+    "disabledSuccess": "Plugin đã bị tắt",
+    "enableFailed": "Cập nhật plugin thất bại",
+    "noDescription": "Không có mô tả",
+    "noToolsListed": "Không có công cụ đã tải",
+    "hasUi": "UI trò chuyện",
+    "hasConfig": "Có thể cấu hình"
+  },
+  "slash": {
+    "fallback": {
+      "status": {
+        "label": "Trạng thái phiên",
+        "description": "Mô hình, mức sử dụng, thời gian chạy và thông tin phiên"
+      },
+      "compact": {
+        "label": "Nén bộ nhớ",
+        "description": "Lưu trữ ngữ cảnh hiện tại và bắt đầu luồng mới"
+      },
+      "new": {
+        "label": "Cuộc trò chuyện mới",
+        "description": "Xóa ngữ cảnh và bắt đầu luồng trò chuyện mới"
+      },
+      "history": {
+        "label": "Thống kê trò chuyện",
+        "description": "Xem số lượng tin nhắn và siêu dữ liệu chủ đề"
+      },
+      "list": {
+        "label": "Danh sách phiên",
+        "description": "Liệt kê các luồng trò chuyện gần đây"
+      },
+      "token": {
+        "label": "Mức sử dụng Token",
+        "description": "Xem mức sử dụng Token của chủ đề hiện tại"
+      }
+    },
+    "menuHint": "↑↓ chọn · Enter xác nhận · Esc đóng"
+  },
+  "pageShell": {
+    "experts": {
+      "title": "Chuyên gia",
+      "subtitle": "Tạo và quản lý chuyên gia AI của bạn, cũng có thể tạo mới một lần từ mẫu"
+    },
+    "tasks": {
+      "title": "Tự động hóa",
+      "subtitle": "Tạo và quản lý các nhiệm vụ định kỳ mà chuyên gia thực thi, cũng có thể chạy thủ công ngay lập tức"
+    },
+    "connectors": {
+      "title": "Trình kết nối",
+      "subtitle": "Kết nối tài liệu, ổ đĩa đám mây và hộp thư, sử dụng theo nhu cầu trong cuộc trò chuyện"
+    },
+    "acp": {
+      "title": "Cộng tác ACP",
+      "subtitle": "Cấu hình Runner chuyên gia lập trình bên ngoài, và bật cộng tác theo chuyên gia"
+    },
+    "skills": {
+      "title": "Kỹ năng",
+      "subtitle": "Quản lý kỹ năng đã cài đặt, cũng có thể cài đặt kỹ năng mới từ thị trường kỹ năng"
+    },
+    "tools": {
+      "title": "Công cụ",
+      "subtitle": "Bật hoặc tắt công cụ tích hợp và công cụ plugin của chuyên gia hiện tại, kiểm soát năng lực khả dụng"
+    },
+    "tokenUsage": {
+      "title": "Thống kê Token",
+      "subtitle": "Xem tổng quan tiêu thụ Token tài khoản, và phân tích đa chiều theo kênh và phiên"
+    },
+    "channels": {
+      "title": "Kênh",
+      "subtitle": "Quản lý kênh IM và kết nối Webhook, để chuyên gia trả lời trong các cuộc trò chuyện bên ngoài"
+    },
+    "mbti": {
+      "title": "Nhân cách MBTI",
+      "subtitle": "Chọn hoặc kiểm tra nhân cách MBTI cho chuyên gia hiện tại, thiết lập phong cách nói chuyện và tính cách"
+    },
+    "subagents": {
+      "title": "Trợ lý con",
+      "subtitle": "Quản lý trợ lý con của chuyên gia hiện tại, cài đặt hoặc chỉnh sửa kỹ năng của chúng"
+    },
+    "memory": {
+      "title": "Bộ nhớ",
+      "subtitle": "Xem và sắp xếp bộ nhớ mà chuyên gia hiện tại ghi lại, cũng có thể xử lý bản nháp chờ xác nhận"
+    },
+    "workspace": {
+      "title": "Không gian làm việc",
+      "subtitle": "Duyệt, xem trước và quản lý tệp trong không gian làm việc của chuyên gia, cũng có thể chỉnh sửa hoặc tải xuống"
+    },
+    "models": {
+      "title": "Cấu hình mô hình",
+      "subtitle": "Cấu hình mô hình được sử dụng cho trò chuyện, vector, tạo sinh, giọng nói, tìm kiếm và quyết định"
+    },
+    "voice": {
+      "title": "Dịch vụ giọng nói",
+      "subtitle": "Cấu hình dịch vụ nhận dạng giọng nói và đọc, chọn mô hình đang sử dụng"
+    },
+    "adminUsers": {
+      "title": "Quản lý người dùng",
+      "subtitle": "Quản lý tài khoản tích hợp và phương thức đăng nhập (OIDC chung, Feishu, WeCom, DingTalk)"
+    },
+    "adminSso": {
+      "title": "OIDC chung",
+      "subtitle": "Cấu hình nhà cung cấp định danh OpenID Connect, dùng để đăng nhập thống nhất"
+    },
+    "adminStorage": {
+      "title": "Quản lý Lưu trữ",
+      "subtitle": "Cấu hình back-end lưu trữ cho chuyên gia sử dụng, như lưu trữ đối tượng và hộp cát"
+    },
+    "adminAudit": {
+      "title": "Nhật ký kiểm toán",
+      "subtitle": "Xem bản ghi thao tác hệ thống và truy cập API, thuận tiện khắc phục và kiểm toán"
+    },
+    "adminAgents": {
+      "title": "Trí thông minh nhân tạo",
+      "subtitle": "Xem và quản lý trí thông minh nhân tạo của tất cả người dùng, hỗ trợ tìm kiếm và thao tác chéo người dùng"
+    },
+    "adminAdvanced": {
+      "title": "Cài đặt ứng dụng",
+      "subtitle": "Quản lý biến môi trường, sao lưu, HTTPS và cập nhật hệ thống"
+    },
+    "bridge": {
+      "title": "Cộng tác đám mây",
+      "subtitle": "Kết nối Octop khác, duyệt chuyên gia của đối phương trên máy này và trò chuyện chéo thể hiện"
+    },
+    "security": {
+      "title": "Bảo vệ an ninh",
+      "subtitle": "Cấu hình phê duyệt công cụ, bảo vệ lệnh, truy cập tệp và bảo vệ thông tin nhạy cảm"
+    },
+    "adminPlugins": {
+      "title": "Quản lý plugin",
+      "subtitle": "Cài đặt và quản lý plugin máy chủ, các chuyên gia có thể bật riêng trong cá nhân hóa"
+    },
+    "adminUpdates": {
+      "title": "Cập nhật ứng dụng",
+      "subtitle": "Kiểm tra phiên bản hiện tại và nâng cấp hệ thống một lần, cũng có thể xem hướng dẫn cài đặt"
+    },
+    "browser": {
+      "title": "Browser AI+",
+      "subtitle": "Xem và điều khiển trình duyệt không giao diện từ xa, tiếp quản thao tác trang web của chuyên gia theo thời gian thực"
+    },
+    "desktop": {
+      "title": "Màn hình từ xa",
+      "subtitle": "Xem và điều khiển màn hình hệ điều hành máy chủ Octop, hoàn thành thao tác màn hình từ xa"
+    },
+    "terminal": {
+      "title": "Terminal AI+",
+      "subtitle": "Chạy thiết bị đầu cuối Shell tương tác trong trình duyệt, xem thực thi lệnh của chuyên gia theo thời gian thực"
+    },
+    "mobile": {
+      "title": "Điện thoại từ xa",
+      "subtitle": "Xem và điều khiển điện thoại hoặc trình giả lập đã kết nối, thao tác màn hình từ xa"
+    },
+    "adminSharedModels": {
+      "title": "Mô hình chia sẻ",
+      "subtitle": "Quản lý cấu hình mô hình chia sẻ cho toàn bộ người dùng, để các chuyên gia sử dụng thống nhất"
+    }
+  },
+  "remoteAndroid": {
+    "refresh": "Làm mới",
+    "connect": "Kết nối",
+    "disconnect": "Ngắt kết nối",
+    "connecting": "Đang kết nối…",
+    "connectingHint": "Đang chờ khung hình đầu tiên",
+    "streamQuality": "Chất lượng hình ảnh",
+    "streamQualityLow": "Mượt mà",
+    "streamQualityBalanced": "Cân bằng",
+    "streamQualityHigh": "Độ nét cao",
+    "streamQualityMax": "Nguyên bản",
+    "pickDevice": "Vui lòng chọn thiết bị trước",
+    "devicePlaceholder": "Chọn thiết bị",
+    "needsInstall": "Cần cài đặt vùng chứa",
+    "needsInstallDesc": "Máy chủ này sử dụng back-end Android vùng chứa. Có thể kéo và khởi động vùng chứa một lần; nếu chưa cài đặt Docker sẽ tự động cố gắng cài đặt (khi thất bại cần cài đặt thủ công).",
+    "install": "Cài đặt vùng chứa",
+    "installing": "Đang khởi động cài đặt…",
+    "installProgress": "Đang cài đặt vùng chứa Android…",
+    "installSuccess": "Vùng chứa Android đã sẵn sàng",
+    "installFailed": "Cài đặt vùng chứa thất bại, vui lòng xem nhật ký rồi thử lại",
+    "installRetry": "Cài đặt lại",
+    "installCancelHint": "Đã hủy yêu cầu cài đặt, máy chủ có thể vẫn đang tiếp tục cài đặt, vui lòng làm mới trạng thái sau.",
+    "installStep1": "Nhấp \"Cài đặt vùng chứa\"; nếu máy chủ chưa cài đặt Docker sẽ tự động cài đặt",
+    "installStep2": "Chờ kéo và khởi động vùng chứa Android",
+    "installStep3": "Sau khi cài đặt hoàn tất làm mới trạng thái, rồi nhấp \"Kết nối\"",
+    "needsDevice": "Chưa kết nối thiết bị",
+    "needsDeviceDesc": "Vui lòng khởi động trình giả lập Android hoặc kết nối điện thoại qua USB, sau đó làm mới.",
+    "readyTitle": "Điện thoại đã sẵn sàng",
+    "readyDesc": "Đã phát hiện thiết bị đã kết nối, nhấp \"Kết nối\" để truyền phát và điều khiển.",
+    "connectTitle": "Kết nối điện thoại từ xa",
+    "connectIdleDesc": "Nhấp \"Kết nối\" bên dưới để bắt đầu xem và điều khiển điện thoại theo thời gian thực.",
+    "setupDesc": "Vui lòng kết nối điện thoại qua USB và bật gỡ lỗi, sau đó bắt đầu truyền phát.",
+    "idleStep1": "Chọn thiết bị",
+    "idleStep2": "Nhấp \"Kết nối\", nhấp, vuốt và nhập trên hình ảnh để điều khiển; sau khi kết nối chuyên gia cũng có thể sử dụng thiết bị này",
+    "setupStep1": "Bật gỡ lỗi USB trên điện thoại và kết nối với máy tính",
+    "setupStep2": "Nhấp \"Làm mới\" cho đến khi thiết bị xuất hiện trong danh sách",
+    "setupStep3": "Nhấp \"Kết nối\" để bắt đầu điều khiển theo thời gian thực",
+    "idleTitle": "Chưa kết nối",
+    "idleDesc": "Sau khi kết nối có thể xem và điều khiển màn hình điện thoại.",
+    "navBack": "Quay lại",
+    "navHome": "Trang chủ",
+    "navRecents": "Nhiệm vụ gần đây",
+    "railLabel": "Điều khiển thiết bị",
+    "railPower": "Nguồn",
+    "railVolumeUp": "Tăng âm lượng",
+    "railVolumeDown": "Giảm âm lượng",
+    "railScreenshot": "Chụp ảnh màn hình",
+    "railRotate": "Xoay màn hình",
+    "rotateOk": "Đã xoay màn hình trên thiết bị",
+    "rotateFailed": "Không thể xoay thiết bị này từ xa, vui lòng xoay thủ công trên thiết bị.",
+    "rotateFailedEmulator": "Trình giả lập này không hỗ trợ xoay từ xa. Vui lòng sử dụng thiết bị thật, hoặc xoay thủ công trong thanh công cụ trình giả lập.",
+    "tabsLabel": "Chế độ xem điện thoại",
+    "tabs": {
+      "screen": "Màn hình",
+      "shell": "ADB Shell"
+    },
+    "shellSplitHandle": "Điều chỉnh độ rộng bảng Shell",
+    "toggleShell": "Mở gỡ lỗi ADB",
+    "shellNoDevice": "Chưa chọn thiết bị",
+    "shellConnecting": "Đang kết nối…",
+    "shellConnected": "Đã kết nối",
+    "shellLinked": "Đã liên kết với truyền phát",
+    "shellIdle": "Nhàn rỗi",
+    "shellConnectTitle": "Kết nối để sử dụng ADB Shell",
+    "shellConnectIdleDesc": "Nhấp \"Kết nối\" để bắt đầu truyền phát, sau đó chạy lệnh adb trong thiết bị đầu cuối bên dưới.",
+    "shellIdleStep2": "Nhấp \"Kết nối\", sau đó sử dụng adb shell trong thiết bị đầu cuối bên dưới",
+    "shellPickDevice": "Vui lòng chọn thiết bị trên thanh công cụ phía trên trước.",
+    "shellNeedStream": "Vui lòng nhấp \"Kết nối\" để bắt đầu truyền phát trước, sau đó sử dụng ADB Shell.",
+    "screenshotNeedStream": "Vui lòng kết nối và chờ hình ảnh xuất hiện trước",
+    "screenshotFailed": "Chụp ảnh màn hình thất bại",
+    "infoTitle": "Thông tin thiết bị",
+    "infoName": "Tên thiết bị",
+    "infoSerial": "ID thiết bị",
+    "infoDevice": "Thiết bị",
+    "infoBackend": "Back-end",
+    "infoSpecsTitle": "Thông tin thông số",
+    "infoHardware": "Thông số thiết bị",
+    "infoHardwareValue": "{{cores}} nhân · {{memGb}} GB bộ nhớ",
+    "infoCoresValue": "{{cores}} nhân",
+    "infoMemValue": "{{memGb}} GB bộ nhớ",
+    "infoStorage": "Lưu trữ thiết bị",
+    "infoStorageTotal": "{{total}} GB",
+    "infoStorageDetail": "{{used}} / {{total}} GB (khả dụng {{avail}} GB)",
+    "infoScreen": "Thông số màn hình",
+    "infoDpiValue": "{{dpi}} dpi",
+    "infoFpsValue": "{{fps}} fps",
+    "infoAndroidValue": "Android {{version}}",
+    "infoResolution": "Kích thước hình ảnh",
+    "infoStatusTitle": "Trạng thái hiện tại",
+    "infoStatus": "Trạng thái",
+    "infoNone": "—",
+    "statusIdle": "Nhàn rỗi",
+    "statusConnecting": "Đang kết nối",
+    "statusStreaming": "Đang truyền phát",
+    "statusFailed": "Tải trạng thái điện thoại thất bại",
+    "deviceInfoFailed": "Tải chi tiết thiết bị thất bại",
+    "adminOnlyTitle": "Điện thoại từ xa",
+    "adminOnlyDesc": "Điện thoại từ xa cần quyền mobile.",
+    "ai": {
+      "title": "Trợ lý AI",
+      "expert": "Chuyên gia",
+      "device": "Thiết bị",
+      "serial": "Số sê-ri",
+      "session": "Phiên",
+      "sessionActive": "Đã kết nối (chuyên gia có thể sử dụng)",
+      "sessionIdle": "Chưa kết nối",
+      "noAgentTitle": "Vui lòng chọn một chuyên gia",
+      "noAgentDesc": "Trợ lý bên phải điện thoại từ xa sẽ tái sử dụng khả năng trò chuyện của chuyên gia hiện tại. Sau khi kết nối điện thoại, chuyên gia có thể thao tác thiết bị này.",
+      "inputPlaceholder": "Để chuyên gia thao tác trên điện thoại, hoặc hỏi về màn hình hiện tại…"
+    }
+  },
+  "errors": {
+    "outOfDateTitle": "Trang này đã hết hạn",
+    "outOfDateSubtitle": "Ứng dụng đã cập nhật trong khi tab này đang mở. Tải lại để tiếp tục.",
+    "unexpectedTitle": "Đã xảy ra lỗi",
+    "unexpectedSubtitle": "Đã xảy ra lỗi bất ngờ.",
+    "reload": "Tải lại",
+    "retry": "Thử lại",
+    "offlineTitle": "Không thể kết nối dịch vụ Octop",
+    "offlineSubtitle": "Mạng không khả dụng hoặc back-end chưa khởi động. Vui lòng kiểm tra mạng và trạng thái dịch vụ rồi thử lại.",
+    "backHome": "Quay lại trang chủ"
+  },
+  "adminProviders": {
+    "title": "Nhà cung cấp",
+    "newProvider": "Tạo nhà cung cấp mới",
+    "pageDescription": "Tất cả nhà cung cấp đều được quản trị viên quản lý thống nhất, có sẵn toàn cục cho mỗi chuyên gia.",
+    "colName": "Tên",
+    "colKind": "Loại",
+    "colNote": "Ghi chú",
+    "deleteConfirm": "Xóa {{name}}?",
+    "fieldBaseUrl": "Base URL (tùy chọn)",
+    "fieldApiKey": "Khóa API (tùy chọn)",
+    "fieldModel": "Mô hình mặc định (tùy chọn)",
+    "nameRequired": "Vui lòng nhập tên",
+    "notePlaceholder": "Chỉ mình bạn có thể thấy",
+    "loadFailed": "Tải thất bại",
+    "created": "Nhà cung cấp \"{{name}}\" đã được tạo",
+    "createFailed": "Tạo thất bại",
+    "deleted": "Đã xóa",
+    "notePrivateTo": "Chỉ {{username}} có thể thấy",
+    "notePrivate": "Chỉ mình bạn có thể thấy"
+  },
+  "pwa": {
+    "updateReady": "Phiên bản mới đã sẵn sàng",
+    "updateNow": "Cập nhật ngay",
+    "later": "Cập nhật sau",
+    "addToHomeScreen": "Thêm vào màn hình chính",
+    "close": "Đóng",
+    "installAsAppDesc": "Cài đặt Octop thành App, mở một lần bất kỳ lúc nào.",
+    "iosStep1Prefix": "Nhấp vào thanh công cụ dưới cùng",
+    "iosStep1Suffix": "nút chia sẻ",
+    "iosStep2": "Cuộn xuống, nhấp \"Thêm vào màn hình chính\"",
+    "iosStep3": "Nhấp \"Thêm\" ở góc trên cùng bên phải để hoàn thành cài đặt",
+    "installDesktopApp": "Cài đặt làm ứng dụng máy tính",
+    "desktopGuideDesc": "Trình duyệt chưa sẵn sàng cài đặt một lần. Vui lòng thao tác theo cách sau, hoặc làm mới trang rồi nhấp nút cài đặt trong Header.",
+    "desktopStep1Prefix": "Xem bên phải thanh địa chỉ",
+    "desktopStep1Suffix": "biểu tượng cài đặt và nhấp",
+    "desktopStep2": "Hoặc mở menu trình duyệt, chọn \"{{action}} Octop\" / Install Octop",
+    "desktopStep3": "Sau khi xác nhận cài đặt, có thể mở một lần từ màn hình hoặc dock",
+    "desktopHint": "Khi truy cập qua IP mạng LAN cần sử dụng HTTPS, nếu không trình duyệt sẽ không cung cấp tùy chọn cài đặt.",
+    "menuActionApply": "Áp dụng",
+    "menuActionInstall": "Cài đặt",
+    "installApp": "Cài đặt ứng dụng",
+    "install": "Cài đặt"
+  },
+  "browser": {
+    "recordReplay": {
+      "replay": "Phát lại bản ghi trình duyệt gần nhất",
+      "replayFailed": "Phát lại thất bại",
+      "replayPassed": "Phát lại hoàn tất",
+      "start": "Bắt đầu ghi trình duyệt",
+      "startFailed": "Bắt đầu ghi thất bại",
+      "started": "Đã bắt đầu ghi trình duyệt",
+      "stop": "Dừng ghi trình duyệt",
+      "noRecording": "Vui lòng hoàn thành một lần ghi trình duyệt trước"
+    }
+  },
+  "shortcut": {
+    "title": "Lệnh tắt"
+  },
+  "skillRecord": {
+    "appliedMessage": "🎉 Kỹ năng **{{name}}** đã được áp dụng thành công!\n\nSau đó có thể nhập lệnh liên quan trong cuộc trò chuyện để phát lại một lần cùng quy trình thao tác trình duyệt.",
+    "applyFailed": "Áp dụng kỹ năng thất bại",
+    "previewMessage": "✅ Ghi hoàn tất! Đã tạo {{steps}} bước phát lại.\n\n📝 **Xem trước kịch bản kỹ năng:**\n\n{{preview}}{{truncation}}\n\nTrả lời \"xác nhận\" để áp dụng kỹ năng này, sau đó có thể phát lại một lần cùng quy trình thao tác.",
+    "previewNoScript": "✅ Ghi hoàn tất! Đã tạo {{steps}} bước phát lại.\n\n⚠️ Tạo kịch bản kỹ năng thất bại, vui lòng thử lại sau hoặc tạo thủ công.",
+    "previewTruncation": "\n\n... (tổng cộng {{lines}} dòng, nội dung đầy đủ sẽ được lưu sau khi xác nhận)",
+    "recordingStartedMessage": "🎬 Đã bắt đầu ghi! Vui lòng thực hiện thao tác bạn muốn tự động hóa trong trình duyệt.\n\nSau khi thao tác hoàn tất, nhập \"kết thúc\" để kết thúc ghi, hệ thống sẽ tự động tạo kịch bản kỹ năng.",
+    "recordingStopped": "Ghi hoàn tất, đã tạo {{steps}} bước phát lại",
+    "skillApplied": "Kỹ năng \"{{name}}\" đã được áp dụng thành công",
+    "stopFailed": "Dừng ghi thất bại"
+  },
+  "skillRecordGuide": {
+    "buttonLabel": "Ghi kỹ năng",
+    "buttonTip": "Ghi thao tác trình duyệt, tạo kịch bản kỹ năng có thể tái sử dụng",
+    "envWarning": "Môi trường trình duyệt chưa sẵn sàng",
+    "envWarningDesc": "Vui lòng đảm bảo môi trường trình duyệt khả dụng trước, sau đó bắt đầu ghi.",
+    "intro": "Thông qua ghi thao tác trình duyệt, tự động tạo kịch bản kỹ năng có thể tái sử dụng. Sau khi bắt đầu ghi, bạn sẽ nhập mục tiêu nhiệm vụ và mô tả thao tác trong cuộc trò chuyện với trợ lý AI.",
+    "startRecording": "Bắt đầu ghi",
+    "step1Title": "Bắt đầu ghi",
+    "step1Desc": "Nhấp vào nút bên dưới, hệ thống sẽ bắt đầu ghi tất cả thao tác trình duyệt.",
+    "step2Title": "Nhập mục tiêu nhiệm vụ",
+    "step2Desc": "Sau khi bắt đầu ghi, trợ lý AI sẽ nhắc bạn nhập mục tiêu nhiệm vụ — đây sẽ trở thành tên kỹ năng và từ khóa kích hoạt (ví dụ \"Đăng nhập hệ thống OA\").",
+    "step3Title": "Mô tả các bước thao tác",
+    "step3Desc": "Tiếp theo mô tả thao tác bạn muốn trợ lý AI thực hiện trong trình duyệt, trợ lý sẽ tự động thực thi và ghi.",
+    "step4Title": "Kết thúc ghi và xác nhận",
+    "step4Desc": "Sau khi thao tác hoàn tất, nhập \"kết thúc\" để dừng ghi, sau khi xác nhận kỹ năng sẽ được lưu với tên là mục tiêu nhiệm vụ. Sau đó chỉ cần nhập từ khóa mục tiêu nhiệm vụ để kích hoạt phát lại.",
+    "envNotReady": "Vui lòng cài đặt môi trường trình duyệt trước",
+    "title": "Hướng dẫn ghi kỹ năng"
+  },
+  "textAssist": {
+    "hint": "Có thể sử dụng AI để tạo theo tên, hoặc trau chuốt nội dung hiện tại",
+    "action": "Trau chuốt AI",
+    "nameRequired": "Vui lòng điền tên trước",
+    "failed": "Trau chuốt thất bại, vui lòng thử lại sau",
+    "emptyResult": "Mô hình không trả về kết quả"
+  }
+}

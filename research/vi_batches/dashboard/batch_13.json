@@ -1,0 +1,531 @@
+{
+  "acp": {
+    "description": "连接支持 ACP 协议的外部编程专家。Runner 配置对该账号下所有专家共享；可在下方按专家单独开启 acp_runner 工具。",
+    "globalRunnersHint": "以下 Runner 配置对该账号下所有专家生效。",
+    "toolEnabledHint": "acp_runner 工具需按专家单独开启，切换上方专家后为当前专家配置。",
+    "toolEnabled": "启用向外委托（acp_runner）",
+    "outboundBlockedHint": "当前专家已启用沙箱环境，不可启用或编辑外部 Runner。启用向外委托（acp_runner）不受影响；通过 IDE / octop acp 接入也不受影响。",
+    "outboundBlockedTooltip": "沙箱环境下不可启用或编辑",
+    "runnerUnavailable": "不可用",
+    "builtin": "内置",
+    "custom": "自定义",
+    "runner_opencode": "OpenCode",
+    "runner_codebuddy": "CodeBuddy",
+    "runner_claude_code": "Claude Code",
+    "runner_codex": "Codex",
+    "runner_kimi_code": "Kimi Code",
+    "runner_cursor_cli": "Cursor CLI",
+    "runner_pi": "Pi",
+    "intro_opencode": "开源 AI 编程专家，通过 stdio ACP 与 Octop 协作。",
+    "intro_codebuddy": "腾讯云代码助手 CodeBuddy Code，使用 codebuddy --acp 启动。",
+    "intro_claude_code": "Anthropic Claude Code 终端编程助手。",
+    "intro_codex": "OpenAI Codex CLI，支持 ACP 协议接入。",
+    "intro_kimi_code": "月之暗面 Kimi Code CLI，先 kimi 登录后使用 kimi acp 启动。",
+    "intro_cursor_cli": "Cursor CLI agent，先 agent login 或设置 CURSOR_API_KEY 后使用 agent acp 启动。",
+    "intro_pi": "Pi 编程专家，通过 pi-acp 桥接（npx -y pi-acp）接入 ACP。",
+    "intro_custom": "自定义 Runner：{{command}}",
+    "runnerNeedsConfig": "已启用，待配置命令",
+    "clickCardToConfigure": "请先点击卡片配置启动命令",
+    "create": "添加 Runner",
+    "createTitle": "添加 ACP Runner",
+    "editTitle": "编辑 Runner",
+    "runnerKey": "Runner ID",
+    "runnerKeyRequired": "请填写 Runner ID",
+    "runnerKeyInvalid": "仅允许字母、数字、下划线和连字符",
+    "runnerKeyExists": "该 Runner ID 已存在",
+    "command": "启动命令",
+    "commandRequired": "请填写启动命令",
+    "args": "参数",
+    "argsHelp": "每行一个参数",
+    "env": "环境变量",
+    "envHelp": "KEY=VALUE，每行一条",
+    "trusted": "受信任 Runner",
+    "toolParseMode": "工具解析模式",
+    "stdioBufferLimit": "Stdio 缓冲上限（字节）",
+    "notSet": "未设置",
+    "loadFailed": "加载 ACP 配置失败",
+    "configSaved": "ACP 配置已保存",
+    "configFailed": "保存 ACP 配置失败",
+    "createSuccess": "Runner 已创建",
+    "deleteTitle": "删除 {{name}}？",
+    "deleteConfirm": "将移除此自定义 Runner。",
+    "deleteSuccess": "Runner 已删除",
+    "docsHint": "请先在本地安装并配置好 ACP 专家（如 opencode、codebuddy --acp）后再启用 Runner。",
+    "chatPermissionTitle": "外部专家需要权限确认"
+  },
+  "plugins": {
+    "loadError": "加载插件失败",
+    "saveFailed": "保存失败",
+    "saved": "已保存",
+    "install": "安装",
+    "installTitle": "安装插件",
+    "installUrlHint": "请粘贴 ZIP 的直接下载地址。GitHub 请用 raw.githubusercontent.com（或 Download / raw 文件链接），不要用 /blob/ 页面地址。",
+    "installUrlPlaceholder": "https://raw.githubusercontent.com/org/repo/main/my-plugin.zip",
+    "installFromZip": "从 ZIP 安装",
+    "overwriteInstall": "覆盖已安装",
+    "zipOnly": "请选择 .zip 文件",
+    "installSuccess": "插件已安装",
+    "installFailed": "安装失败",
+    "uninstall": "卸载",
+    "uninstallSuccess": "插件已卸载",
+    "uninstallFailed": "卸载失败",
+    "uninstallConfirm": "确定卸载插件 {{id}}？",
+    "empty": "尚未安装插件",
+    "adminHint": "插件安装在服务器 ~/.octop/plugins/。此页面仅用于安装、重载、全局启停、查看详情和卸载。",
+    "guideTitle": "如何开发并导入插件",
+    "guideDevelopTitle": "1. 开发",
+    "guideDevelopBody": "创建一个包含 plugin.yaml 与入口 Python 文件（如 main.py）的目录。plugin.yaml 需包含 id、version、name、kind（tool / skill / hook）和 entry。setup(ctx) 中：tool → ctx.tool(...)；skill → ctx.skills(\"skills\")；hook → ctx.middleware(...)。仓库 plugins/ 下有三类 demo 可参考。",
+    "guidePackageTitle": "2. 打包",
+    "guidePackageBody": "将插件打成 ZIP，且压缩包内只能有一个带 plugin.yaml 的插件根目录（可在 ZIP 根目录，或唯一的一层子目录中）。示例：zip -r my-plugin.zip my-plugin/",
+    "guideImportTitle": "3. 导入",
+    "guideImportBody": "把 .zip 放到 Octop 可通过 HTTP(S) 下载的位置，优先使用 raw 直链。安装后前往「个性化 → 插件」为专家配置。本地 demo：octop plugin install ./plugins/demo-toolkit --force",
+    "guideExampleTitle": "最小 plugin.yaml 示例",
+    "guideExampleYaml": "id: my-plugin\nversion: 1.0.0\nname: My Plugin\ndescription: Example tool plugin\nicon: icon.svg\ngroup: tools\nkind: tool\nentry: main.py",
+    "groupAll": "全部",
+    "emptyGroup": "该分组下暂无插件",
+    "groups": {
+      "lifestyle": "生活",
+      "news": "资讯",
+      "finance": "财经",
+      "media": "影音",
+      "fun": "趣味",
+      "games": "游戏",
+      "tools": "工具",
+      "ops": "运维"
+    },
+    "groupUnknown": "其他",
+    "agentHint": "插件启用后，其工具默认对所有专家可用；可按专家单独关闭。需要 API Key 的插件请先点「配置」。新会话会使用最新工具列表。",
+    "agentPluginHint": "已安装插件默认对当前专家开启。关闭后，该插件的工具、技能和 Hook 均不再用于此专家，但已有工具配置会保留。",
+    "agentEnabled": "为当前专家启用",
+    "globallyDisabled": "已全局关闭",
+    "globalDisabledHint": "管理员已全局关闭此插件，因此即使当前专家开启也不可用。",
+    "noAgent": "请先在侧栏选择一个专家",
+    "noPlugins": "暂无已安装插件，请联系管理员先安装插件。",
+    "noTools": "没有可用的插件工具。请先安装 tool 类插件。",
+    "enablePluginFirst": "请先启用该插件。启用后工具默认可用，也可按专家单独关闭。",
+    "detailToolsHint": "默认开启。关闭后仅对侧栏当前选中的专家生效（与专家「工具设置」共用配置）；下一轮对话即可生效，无需重启。",
+    "configure": "配置",
+    "colName": "名称",
+    "colId": "ID",
+    "colVersion": "版本",
+    "colKind": "类型",
+    "colGroup": "分组",
+    "colStatus": "状态",
+    "colTools": "工具",
+    "colActions": "操作",
+    "colIcon": "图标",
+    "colPath": "路径",
+    "colUi": "前端 UI",
+    "colRequires": "依赖",
+    "colPluginId": "插件 ID",
+    "viewDetails": "查看详情",
+    "detailTitle": "插件详情",
+    "detailInfo": "基本信息",
+    "detailEnableHint": "启用后插件会在服务端加载，工具默认对专家可用。",
+    "visibilitySaved": "已更新谁可以使用此插件",
+    "visibilityFailed": "更新插件使用范围失败",
+    "toolDetailTitle": "工具详情",
+    "statusLoaded": "已加载",
+    "statusIdle": "未加载",
+    "statusError": "错误",
+    "statusDisabled": "已停用",
+    "reload": "重新加载",
+    "reloadSuccess": "插件已重新加载",
+    "reloadFailed": "重新加载失败",
+    "tabInstalled": "已安装插件",
+    "tabAgentTools": "工具管理",
+    "tabMarket": "插件市场",
+    "marketTitle": "插件市场",
+    "marketHint": "浏览精选插件，一键安装到本机。",
+    "marketLoadError": "加载插件市场失败",
+    "marketEmpty": "市场目录暂无插件",
+    "marketSearchPlaceholder": "搜索插件市场",
+    "marketSearchEmpty": "没有匹配的插件",
+    "marketInstall": "安装",
+    "marketInstalled": "已安装",
+    "marketUpdate": "更新",
+    "marketUpdateAvailable": "有更新",
+    "marketUpdateSuccess": "插件已更新",
+    "marketRefresh": "刷新",
+    "totalMarket": "共 {{count}} 个",
+    "emptyHint": "可前往插件市场，将精选插件安装到本机。",
+    "goToMarket": "打开插件市场",
+    "colEnabled": "启用",
+    "colTool": "工具",
+    "colDescription": "说明",
+    "viewCard": "卡片",
+    "viewTable": "表格",
+    "totalPlugins": "共 {{count}} 个插件",
+    "totalTools": "共 {{count}} 个工具",
+    "enabledSuccess": "插件已启用",
+    "disabledSuccess": "插件已停用",
+    "enableFailed": "更新插件失败",
+    "noDescription": "暂无描述",
+    "noToolsListed": "暂无已加载工具",
+    "hasUi": "聊天 UI",
+    "hasConfig": "可配置"
+  },
+  "slash": {
+    "fallback": {
+      "status": {
+        "label": "会话状态",
+        "description": "模型、用量、运行时长与会话信息"
+      },
+      "compact": {
+        "label": "压缩记忆",
+        "description": "归档当前上下文并开始新线程"
+      },
+      "new": {
+        "label": "新对话",
+        "description": "清空上下文并开始新的对话线程"
+      },
+      "history": {
+        "label": "对话统计",
+        "description": "查看消息数量与话题元数据"
+      },
+      "list": {
+        "label": "会话列表",
+        "description": "列出最近的对话线程"
+      },
+      "token": {
+        "label": "Token 用量",
+        "description": "查看当前话题的 Token 用量"
+      }
+    },
+    "menuHint": "↑↓ 选择 · Enter 确认 · Esc 关闭"
+  },
+  "pageShell": {
+    "experts": {
+      "title": "专家",
+      "subtitle": "创建与管理你的 AI 专家，也可从模板一键新建"
+    },
+    "tasks": {
+      "title": "自动化",
+      "subtitle": "创建和管理专家定期执行的计划任务，也可立刻手动运行"
+    },
+    "connectors": {
+      "title": "连接器",
+      "subtitle": "连接文档、网盘与邮箱，并在对话中按需使用"
+    },
+    "acp": {
+      "title": "ACP 协作",
+      "subtitle": "配置外部编程专家 Runner，并按专家开启协作"
+    },
+    "skills": {
+      "title": "技能",
+      "subtitle": "管理已安装技能，也可从技能市场安装新技能"
+    },
+    "tools": {
+      "title": "工具",
+      "subtitle": "启用或关闭当前专家的内置工具与插件工具，控制可用能力"
+    },
+    "tokenUsage": {
+      "title": "Token 统计",
+      "subtitle": "查看账户 Token 消耗总览，并按渠道与会话做多维分析"
+    },
+    "channels": {
+      "title": "通道",
+      "subtitle": "管理 IM 渠道与 Webhook 接入，让专家在外部会话中回复"
+    },
+    "mbti": {
+      "title": "MBTI 人格",
+      "subtitle": "为当前专家选择或测试 MBTI 人格，设定说话风格与性格"
+    },
+    "subagents": {
+      "title": "子智能体",
+      "subtitle": "管理当前专家的子智能体，安装或编辑它们的技能"
+    },
+    "memory": {
+      "title": "记忆",
+      "subtitle": "查看并整理当前专家记下的记忆，也可处理待确认草稿"
+    },
+    "workspace": {
+      "title": "工作区",
+      "subtitle": "浏览、预览和管理专家工作区中的文件，也可编辑或下载"
+    },
+    "models": {
+      "title": "模型配置",
+      "subtitle": "配置对话、向量、生成、语音、搜索和决策所用的模型"
+    },
+    "voice": {
+      "title": "语音服务",
+      "subtitle": "配置语音识别与朗读服务，并选择当前使用的模型"
+    },
+    "adminUsers": {
+      "title": "用户管理",
+      "subtitle": "管理内置账号与登录方式（通用 OIDC、飞书、企微、钉钉）"
+    },
+    "adminSso": {
+      "title": "通用OIDC",
+      "subtitle": "配置 OpenID Connect 身份提供商，用于统一登录"
+    },
+    "adminStorage": {
+      "title": "存储管理",
+      "subtitle": "配置可供专家使用的存储后端，如对象存储与沙箱"
+    },
+    "adminAudit": {
+      "title": "审计日志",
+      "subtitle": "查看系统操作与 API 访问记录，便于排查与审计"
+    },
+    "adminAgents": {
+      "title": "智能体",
+      "subtitle": "查看并管理所有用户的智能体，支持跨用户检索与操作"
+    },
+    "adminAdvanced": {
+      "title": "应用设置",
+      "subtitle": "管理环境变量、备份、HTTPS 与系统更新"
+    },
+    "bridge": {
+      "title": "云端协同",
+      "subtitle": "连接另一台 Octop，在本机浏览对端专家并跨实例对话"
+    },
+    "security": {
+      "title": "安全防护",
+      "subtitle": "配置工具审批、命令防护、文件访问与敏感信息防护"
+    },
+    "adminPlugins": {
+      "title": "插件管理",
+      "subtitle": "安装并管理服务器插件，各专家可在个性化中单独启用"
+    },
+    "adminUpdates": {
+      "title": "应用更新",
+      "subtitle": "检查当前版本并一键升级系统，也可查看安装说明"
+    },
+    "browser": {
+      "title": "浏览器 AI+",
+      "subtitle": "查看并操控远端无头浏览器，实时接管专家的网页操作"
+    },
+    "desktop": {
+      "title": "远程桌面",
+      "subtitle": "查看并操控 Octop 主机操作系统桌面，远程完成桌面操作"
+    },
+    "terminal": {
+      "title": "终端 AI+",
+      "subtitle": "在浏览器中运行交互式 Shell 终端，实时查看专家的命令执行"
+    },
+    "mobile": {
+      "title": "远程手机",
+      "subtitle": "查看并控制已连接的手机或模拟器，远程操作屏幕"
+    },
+    "adminSharedModels": {
+      "title": "共享模型",
+      "subtitle": "管理面向全体用户共享的模型配置，供各专家统一使用"
+    }
+  },
+  "remoteAndroid": {
+    "refresh": "刷新",
+    "connect": "连接",
+    "disconnect": "断开",
+    "connecting": "连接中…",
+    "connectingHint": "正在等待首帧画面",
+    "streamQuality": "画质",
+    "streamQualityLow": "流畅",
+    "streamQualityBalanced": "均衡",
+    "streamQualityHigh": "高清",
+    "streamQualityMax": "原画",
+    "pickDevice": "请先选择设备",
+    "devicePlaceholder": "选择设备",
+    "needsInstall": "需要安装容器",
+    "needsInstallDesc": "此主机使用容器 Android 后端。可一键拉取并启动容器；若未安装 Docker 将自动尝试安装（失败时需手动安装）。",
+    "install": "安装容器",
+    "installing": "正在启动安装…",
+    "installProgress": "正在安装 Android 容器…",
+    "installSuccess": "Android 容器已就绪",
+    "installFailed": "容器安装失败，请查看日志后重试",
+    "installRetry": "重新安装",
+    "installCancelHint": "已取消安装请求，服务端可能仍在继续安装，请稍后刷新状态。",
+    "installStep1": "点击「安装容器」；若主机未安装 Docker 将自动安装",
+    "installStep2": "等待拉取并启动 Android 容器",
+    "installStep3": "安装完成后刷新状态，再点击「连接」",
+    "needsDevice": "未连接设备",
+    "needsDeviceDesc": "请启动 Android 模拟器或通过 USB 连接手机，然后刷新。",
+    "readyTitle": "手机已就绪",
+    "readyDesc": "已检测到已连接设备，点击「连接」即可推流并操控。",
+    "connectTitle": "连接远程手机",
+    "connectIdleDesc": "点击下方「连接」开始实时查看并操控手机。",
+    "setupDesc": "请用 USB 连接手机并开启调试，然后开始推流。",
+    "idleStep1": "选择设备",
+    "idleStep2": "点击「连接」，在画面上点击、滑动与输入即可操控；连接后专家也可使用该设备",
+    "setupStep1": "在手机上开启 USB 调试并接入电脑",
+    "setupStep2": "点击「刷新」，直到设备出现在列表中",
+    "setupStep3": "点击「连接」开始实时操控",
+    "idleTitle": "未连接",
+    "idleDesc": "连接后即可查看并控制手机屏幕。",
+    "navBack": "返回",
+    "navHome": "主页",
+    "navRecents": "最近任务",
+    "railLabel": "设备控制",
+    "railPower": "电源",
+    "railVolumeUp": "音量加",
+    "railVolumeDown": "音量减",
+    "railScreenshot": "截图",
+    "railRotate": "旋转屏幕",
+    "rotateOk": "已在设备上旋转屏幕",
+    "rotateFailed": "无法远程旋转此设备，请在设备上手动旋转。",
+    "rotateFailedEmulator": "此模拟器不支持远程旋转。请使用实体机，或在模拟器工具栏中手动旋转。",
+    "tabsLabel": "手机视图",
+    "tabs": {
+      "screen": "屏幕",
+      "shell": "ADB Shell"
+    },
+    "shellSplitHandle": "调整 Shell 面板宽度",
+    "toggleShell": "打开 ADB 调试",
+    "shellNoDevice": "未选择设备",
+    "shellConnecting": "连接中…",
+    "shellConnected": "已连接",
+    "shellLinked": "已与推流关联",
+    "shellIdle": "空闲",
+    "shellConnectTitle": "连接以使用 ADB Shell",
+    "shellConnectIdleDesc": "点击「连接」开始推流，然后在下方终端中运行 adb 命令。",
+    "shellIdleStep2": "点击「连接」，然后在下方终端中使用 adb shell",
+    "shellPickDevice": "请先在上方工具栏选择设备。",
+    "shellNeedStream": "请先点击「连接」开始推流，再使用 ADB Shell。",
+    "screenshotNeedStream": "请先连接并等待画面出现",
+    "screenshotFailed": "截图失败",
+    "infoTitle": "设备信息",
+    "infoName": "设备名称",
+    "infoSerial": "设备 ID",
+    "infoDevice": "设备",
+    "infoBackend": "后端",
+    "infoSpecsTitle": "规格信息",
+    "infoHardware": "设备规格",
+    "infoHardwareValue": "{{cores}} 核 · {{memGb}} GB 内存",
+    "infoCoresValue": "{{cores}} 核",
+    "infoMemValue": "{{memGb}} GB 内存",
+    "infoStorage": "设备存储",
+    "infoStorageTotal": "{{total}} GB",
+    "infoStorageDetail": "{{used}} / {{total}} GB（可用 {{avail}} GB）",
+    "infoScreen": "屏幕参数",
+    "infoDpiValue": "{{dpi}} dpi",
+    "infoFpsValue": "{{fps}} fps",
+    "infoAndroidValue": "Android {{version}}",
+    "infoResolution": "画面尺寸",
+    "infoStatusTitle": "当前状态",
+    "infoStatus": "状态",
+    "infoNone": "—",
+    "statusIdle": "空闲",
+    "statusConnecting": "连接中",
+    "statusStreaming": "推流中",
+    "statusFailed": "加载手机状态失败",
+    "deviceInfoFailed": "加载设备详情失败",
+    "adminOnlyTitle": "远程手机",
+    "adminOnlyDesc": "远程手机需要 mobile 权限。",
+    "ai": {
+      "title": "AI 助手",
+      "expert": "专家",
+      "device": "设备",
+      "serial": "序列号",
+      "session": "会话",
+      "sessionActive": "已连接（专家可用）",
+      "sessionIdle": "未连接",
+      "noAgentTitle": "请选择一个专家",
+      "noAgentDesc": "远程手机右侧助手会复用当前专家的对话能力。连接手机后，专家即可操作该设备。",
+      "inputPlaceholder": "让专家在手机上操作，或询问当前屏幕…"
+    }
+  },
+  "errors": {
+    "outOfDateTitle": "此页面已过期",
+    "outOfDateSubtitle": "应用在此标签页打开期间已更新。重新加载以继续。",
+    "unexpectedTitle": "出错了",
+    "unexpectedSubtitle": "发生意外错误。",
+    "reload": "重新加载",
+    "retry": "重试",
+    "offlineTitle": "无法连接 Octop 服务",
+    "offlineSubtitle": "网络不可用或后端未启动。请检查网络与服务状态后重试。",
+    "backHome": "返回首页"
+  },
+  "adminProviders": {
+    "title": "Providers",
+    "newProvider": "新建提供商",
+    "pageDescription": "所有提供商均由管理员统一管理，对每个专家全局可用。",
+    "colName": "名称",
+    "colKind": "类型",
+    "colNote": "备注",
+    "deleteConfirm": "删除 {{name}}？",
+    "fieldBaseUrl": "Base URL（可选）",
+    "fieldApiKey": "API 密钥（可选）",
+    "fieldModel": "默认模型（可选）",
+    "nameRequired": "请输入名称",
+    "notePlaceholder": "仅本人可见",
+    "loadFailed": "加载失败",
+    "created": "提供商「{{name}}」已创建",
+    "createFailed": "创建失败",
+    "deleted": "已删除",
+    "notePrivateTo": "仅 {{username}} 可见",
+    "notePrivate": "仅本人可见"
+  },
+  "pwa": {
+    "updateReady": "新版本已就绪",
+    "updateNow": "立即更新",
+    "later": "稍后更新",
+    "addToHomeScreen": "添加到主屏幕",
+    "close": "关闭",
+    "installAsAppDesc": "将 Octop 安装为 App，随时一键打开。",
+    "iosStep1Prefix": "点击底部工具栏的",
+    "iosStep1Suffix": "分享按钮",
+    "iosStep2": "向下滚动，点击「添加到主屏幕」",
+    "iosStep3": "点击右上角「添加」完成安装",
+    "installDesktopApp": "安装为桌面应用",
+    "desktopGuideDesc": "浏览器尚未准备好一键安装。请按以下方式操作，或刷新页面后再点 Header 中的安装按钮。",
+    "desktopStep1Prefix": "查看地址栏右侧的",
+    "desktopStep1Suffix": "安装图标并点击",
+    "desktopStep2": "或打开浏览器菜单，选择「{{action}} Octop」/ Install Octop",
+    "desktopStep3": "确认安装后，可从桌面或程序坞一键打开",
+    "desktopHint": "通过局域网 IP 访问时需使用 HTTPS，否则浏览器不会提供安装选项。",
+    "menuActionApply": "应用",
+    "menuActionInstall": "安装",
+    "installApp": "安装应用",
+    "install": "安装"
+  },
+  "browser": {
+    "recordReplay": {
+      "replay": "回放最近一次浏览器录制",
+      "replayFailed": "回放失败",
+      "replayPassed": "回放完成",
+      "start": "开始浏览器录制",
+      "startFailed": "开始录制失败",
+      "started": "已开始浏览器录制",
+      "stop": "停止浏览器录制",
+      "noRecording": "请先完成一次浏览器录制"
+    }
+  },
+  "shortcut": {
+    "title": "快捷指令"
+  },
+  "skillRecord": {
+    "appliedMessage": "🎉 技能 **{{name}}** 已成功应用！\n\n之后可以通过聊天输入相关指令，一键回放相同的浏览器操作流程。",
+    "applyFailed": "应用技能失败",
+    "previewMessage": "✅ 录制完成！已生成 {{steps}} 个回放步骤。\n\n📝 **技能脚本预览：**\n\n{{preview}}{{truncation}}\n\n回复\"确认\"即可应用此技能，之后可以一键回放相同操作流程。",
+    "previewNoScript": "✅ 录制完成！已生成 {{steps}} 个回放步骤。\n\n⚠️ 技能脚本生成失败，请稍后重试或手动生成。",
+    "previewTruncation": "\n\n... (共 {{lines}} 行，完整内容将在确认后保存)",
+    "recordingStartedMessage": "🎬 录制已开始！请在浏览器中进行你想要自动化的操作。\n\n操作完成后，输入\"结束\"即可结束录制，系统将自动生成技能脚本。",
+    "recordingStopped": "录制完成，已生成 {{steps}} 个回放步骤",
+    "skillApplied": "技能 \"{{name}}\" 已成功应用",
+    "stopFailed": "停止录制失败"
+  },
+  "skillRecordGuide": {
+    "buttonLabel": "技能录制",
+    "buttonTip": "录制浏览器操作，生成可复用的技能脚本",
+    "envWarning": "浏览器环境未就绪",
+    "envWarningDesc": "请先确保浏览器环境可用，然后再开始录制。",
+    "intro": "通过录制浏览器操作，自动生成可复用的技能脚本。录制开始后，你将在AI助手对话中输入任务目标和操作描述。",
+    "startRecording": "开始录制",
+    "step1Title": "开始录制",
+    "step1Desc": "点击下方按钮，系统将开始录制所有浏览器操作。",
+    "step2Title": "输入任务目标",
+    "step2Desc": "录制开始后，AI助手会提示你输入任务目标——这将成为技能的名称和触发关键词（例如\"登录OA系统\"）。",
+    "step3Title": "描述操作步骤",
+    "step3Desc": "接着描述你想让AI助手在浏览器中执行的操作，助手会自动执行并录制。",
+    "step4Title": "结束录制并确认",
+    "step4Desc": "操作完成后，输入\"结束\"停止录制，确认后技能将以任务目标为名保存。之后只需输入任务目标关键词即可触发回放。",
+    "envNotReady": "请先安装浏览器环境",
+    "title": "技能录制引导"
+  },
+  "textAssist": {
+    "hint": "可用 AI 根据名称生成，或润色当前内容",
+    "action": "AI 润色",
+    "nameRequired": "请先填写名称",
+    "failed": "润色失败，请稍后重试",
+    "emptyResult": "模型未返回结果"
+  }
+}

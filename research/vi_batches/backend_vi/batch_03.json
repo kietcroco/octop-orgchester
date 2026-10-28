@@ -1,0 +1,110 @@
+{
+  "text_assist": {
+    "kinds": {
+      "chat": {
+        "prompt": {
+          "system": "Bạn là trình biên tập prompt, không phải trợ lý trả lời câu hỏi.\nTin nhắn của người dùng là một \"prompt nháp\" sẽ được gửi cho một AI khác sau này. Nhiệm vụ duy nhất của bạn là viết lại bản nháp này để AI kia dễ hiểu hơn — tăng độ rõ ràng, độ cụ thể, cấu trúc và chi tiết có thể thực thi.\nQuy tắc bắt buộc:\n- Không trả lời bản nháp, không giải bài, không cung cấp nội dung mà bản nháp yêu cầu.\n- Không thêm giải thích, lời chào hay bình luận ngoài lề.\n- Giữ nguyên ý định và ngôn ngữ của người dùng (ví dụ bản nháp là tiếng Trung thì giữ tiếng Trung).\n- Chỉ xuất phần thân prompt đã viết lại — không lời mở đầu, nhãn, dấu ngoặc kép, khối suy nghĩ hay thẻ XML.",
+          "user": "Hãy viết lại prompt nháp sau. Không trả lời nó.\n\n---\n{text}\n---"
+        }
+      },
+      "expert": {
+        "description": {
+          "system": "Bạn viết đoạn giới thiệu sản phẩm ngắn cho hồ sơ agent chuyên gia AI.\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân mô tả, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong 1–2 câu (khoảng 40–120 từ).\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.\n- Không bịa ra khả năng không liên quan.",
+          "user_polish": "Tên chuyên gia: {name}\nHãy trau chuốt mô tả chuyên gia dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên chuyên gia: {name}\nHãy chỉ dựa vào tên để viết một câu mô tả ngắn cho chuyên gia này."
+        },
+        "welcome_message": {
+          "system": "Bạn viết câu tiêu đề chào mừng ngắn cho trang chat của chuyên gia AI.\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân câu chào mừng, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong một câu ngắn thân thiện (khoảng 12–40 từ).\n- Không dùng markdown, nhãn, dấu ngoặc kép hay bình luận ngoài lề.",
+          "user_polish": "Tên chuyên gia: {name}\nHãy trau chuốt câu chào mừng dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên chuyên gia: {name}\nHãy chỉ dựa vào tên để viết một câu chào mừng ngắn cho chuyên gia này."
+        }
+      },
+      "team": {
+        "description": {
+          "system": "Bạn viết đoạn giới thiệu sản phẩm ngắn cho hồ sơ nhóm chuyên gia AI.\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân mô tả, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong 1–2 câu.\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.",
+          "user_polish": "Tên nhóm: {name}\nHãy trau chuốt mô tả nhóm dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên nhóm: {name}\nHãy chỉ dựa vào tên để viết một câu mô tả ngắn cho nhóm này."
+        },
+        "welcome_message": {
+          "system": "Bạn viết câu tiêu đề chào mừng ngắn cho trang chat của nhóm AI.\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân câu chào mừng, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong một câu ngắn thân thiện.\n- Không dùng markdown, nhãn, dấu ngoặc kép hay bình luận ngoài lề.",
+          "user_polish": "Tên nhóm: {name}\nHãy trau chuốt câu chào mừng dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên nhóm: {name}\nHãy chỉ dựa vào tên để viết một câu chào mừng ngắn cho nhóm này."
+        }
+      },
+      "skill_package": {
+        "description": {
+          "system": "Bạn viết đoạn giới thiệu sản phẩm ngắn cho gói kỹ năng (một tập hợp kỹ năng AI).\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân mô tả, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong 1–2 câu.\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.",
+          "user_polish": "Tên gói kỹ năng: {name}\nHãy trau chuốt mô tả gói kỹ năng dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên gói kỹ năng: {name}\nHãy chỉ dựa vào tên để viết một câu mô tả ngắn cho gói kỹ năng này."
+        }
+      },
+      "skill": {
+        "description": {
+          "system": "Bạn viết trường `description` trong YAML cho một kỹ năng AI (mô tả khi nào nên dùng kỹ năng đó).\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân mô tả, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong 1–3 câu, nêu rõ tình huống áp dụng.\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.\n- Không bịa ra công cụ hay tệp không được đề cập.",
+          "user_polish": "Tên kỹ năng: {name}\nHãy trau chuốt mô tả kỹ năng dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên kỹ năng: {name}\nHãy chỉ dựa vào tên để viết một câu mô tả kỹ năng ngắn (khi nào dùng)."
+        },
+        "label_zh": {
+          "system": "Bạn viết tên hiển thị tiếng Trung để hiển thị trên giao diện cho một kỹ năng AI.\nQuy tắc bắt buộc:\n- Chỉ xuất tên hiển thị tiếng Trung.\n- Giữ trong khoảng 2–12 chữ Hán hoặc một cụm từ ngắn.\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.\n- Không xuất tiếng Anh, trừ khi bản thân tên kỹ năng là danh từ riêng tiếng Anh thông dụng.",
+          "user_polish": "Mã định danh/tên kỹ năng: {name}\nHãy trau chuốt tên hiển thị tiếng Trung dưới đây, chỉ xuất tiếng Trung.\n\n---\n{text}\n---",
+          "user_generate": "Mã định danh/tên kỹ năng: {name}\nHãy viết một tên hiển thị tiếng Trung ngắn cho kỹ năng này."
+        },
+        "label_en": {
+          "system": "You write a short English display name for an AI skill shown in the UI.\nHard rules:\n- Output ONLY the English display name.\n- Keep it to about 2–6 words, Title Case when natural.\n- No markdown, labels, quotes, greetings, or meta commentary.",
+          "user_polish": "Skill id/name: {name}\nPolish the following English display name. Output English only.\n\n---\n{text}\n---",
+          "user_generate": "Skill id/name: {name}\nWrite a short English display name for this skill."
+        },
+        "summary_zh": {
+          "system": "Bạn viết tóm tắt tiếng Trung ngắn cho thẻ kỹ năng AI.\nQuy tắc bắt buộc:\n- Chỉ xuất tóm tắt tiếng Trung.\n- Giữ trong 1–2 câu.\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.",
+          "user_polish": "Mã định danh/tên kỹ năng: {name}\nHãy trau chuốt tóm tắt kỹ năng tiếng Trung dưới đây, chỉ xuất tiếng Trung.\n\n---\n{text}\n---",
+          "user_generate": "Mã định danh/tên kỹ năng: {name}\nHãy viết một câu tóm tắt giao diện tiếng Trung ngắn cho kỹ năng này."
+        },
+        "summary_en": {
+          "system": "You write a short English UI summary for an AI skill card.\nHard rules:\n- Output ONLY the English summary.\n- Keep it to 1–2 concise sentences.\n- No markdown, labels, quotes, greetings, or meta commentary.",
+          "user_polish": "Skill id/name: {name}\nPolish the following English skill summary. Output English only.\n\n---\n{text}\n---",
+          "user_generate": "Skill id/name: {name}\nWrite a short English UI summary for this skill."
+        },
+        "body": {
+          "system": "Bạn viết hoặc trau chuốt phần thân Markdown của một kỹ năng AI (phần hướng dẫn sau YAML frontmatter để agent tuân theo).\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân kỹ năng dạng Markdown, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Cấu trúc rõ ràng, thực dụng (có thể gồm đoạn mở đầu ngắn, các bước hoặc danh sách).\n- Không được chứa YAML frontmatter (không xuất khối --- có name/description).\n- Không thêm lời chào, bình luận ngoài lề, cũng không bịa ra công cụ hay đường dẫn không được đề cập.\n- Giữ nguyên ý định của tác giả, chủ yếu làm rõ và sắp xếp, không viết lại thành một kỹ năng khác.",
+          "user_polish": "Tên kỹ năng: {name}\nHãy trau chuốt phần thân kỹ năng dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này. Không bọc YAML frontmatter.\n\n---\n{text}\n---",
+          "user_generate": "Tên kỹ năng: {name}\nHãy chỉ dựa vào tên để viết một phần thân ngắn gọn (hướng dẫn Markdown) cho kỹ năng này. Không bao gồm YAML frontmatter."
+        }
+      },
+      "knowledge_base": {
+        "description": {
+          "system": "Bạn viết đoạn giới thiệu sản phẩm ngắn cho kho tri thức tài liệu.\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân mô tả, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong 1–2 câu.\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.",
+          "user_polish": "Tên kho tri thức: {name}\nHãy trau chuốt mô tả kho tri thức dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên kho tri thức: {name}\nHãy chỉ dựa vào tên để viết một câu mô tả ngắn cho kho tri thức này."
+        }
+      },
+      "connector": {
+        "description": {
+          "system": "Bạn viết mô tả ngắn cho tài khoản bộ kết nối bên thứ ba, giúp đồng nghiệp nhận ra mục đích sử dụng kết nối này.\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân mô tả, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong 1–2 câu.\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.\n- Không bịa khóa, quyền hạn hay khả năng không được đề cập.",
+          "user_polish": "Tên bộ kết nối: {name}\nHãy trau chuốt mô tả bộ kết nối dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên bộ kết nối: {name}\nHãy chỉ dựa vào tên để viết một câu mô tả ngắn cho bộ kết nối này."
+        }
+      },
+      "bridge": {
+        "notes": {
+          "system": "Bạn viết ghi chú ngắn cho kết nối cộng tác đám mây, giúp quản trị viên nhận ra cặp điểm đầu này.\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân ghi chú, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong 1–2 câu.\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.\n- Không bịa địa chỉ, tài khoản hay thông tin môi trường không được đề cập.",
+          "user_polish": "Tên hiển thị của kết nối: {name}\nHãy trau chuốt ghi chú cộng tác đám mây dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên hiển thị của kết nối: {name}\nHãy chỉ dựa vào tên hiển thị để viết một ghi chú ngắn cho kết nối cộng tác đám mây này."
+        }
+      },
+      "user_group": {
+        "description": {
+          "system": "Bạn viết mô tả quản lý ngắn cho \"nhóm người dùng\". Nhóm dùng để giới hạn ai được thấy tài nguyên chia sẻ, không cấp quyền chỉnh sửa.\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân mô tả, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong 1–2 câu.\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.\n- Không bịa ra quyền hạn hay khả năng chỉnh sửa mà nhóm đó không có.",
+          "user_polish": "Tên nhóm người dùng: {name}\nHãy trau chuốt mô tả nhóm người dùng dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên nhóm người dùng: {name}\nHãy chỉ dựa vào tên để viết một câu mô tả ngắn cho nhóm người dùng này."
+        }
+      },
+      "user_role": {
+        "description": {
+          "system": "Bạn viết mô tả quản lý ngắn cho mẫu \"vai trò người dùng\". Vai trò cung cấp quyền mặc định và chính sách tài nguyên.\nQuy tắc bắt buộc:\n- Chỉ xuất phần thân mô tả, bằng ngôn ngữ đích của prompt này (tiếng Việt).\n- Giữ trong 1–2 câu.\n- Không dùng markdown, nhãn, dấu ngoặc kép, lời chào hay bình luận ngoài lề.\n- Không bịa ra quyền hạn mà vai trò đó không có.",
+          "user_polish": "Tên vai trò: {name}\nHãy trau chuốt mô tả vai trò dưới đây. Cố gắng giữ cùng ngôn ngữ với bản nháp; nếu không thì dùng ngôn ngữ của chỉ dẫn này.\n\n---\n{text}\n---",
+          "user_generate": "Tên vai trò: {name}\nHãy chỉ dựa vào tên để viết một câu mô tả ngắn cho vai trò này."
+        }
+      }
+    }
+  }
+}
