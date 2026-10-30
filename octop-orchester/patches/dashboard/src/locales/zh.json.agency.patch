@@ -1,0 +1,55 @@
+diff --git a/dashboard/src/locales/zh.json b/dashboard/src/locales/zh.json
+index b58251df..1b9fa263 100644
+--- a/dashboard/src/locales/zh.json
++++ b/dashboard/src/locales/zh.json
+@@ -254,6 +254,7 @@
+     "common": "常用",
+     "control": "控制",
+     "experts": "专家",
++    "agencies": "部门",
+     "tasks": "自动化",
+     "connectors": "连接器",
+     "bridge": "云端协同",
+@@ -789,6 +790,42 @@
+     "ESTP": "企业家",
+     "ESFP": "表演者"
+   },
++  "agencies": {
++    "title": "部门",
++    "subtitle": "把专家分组到部门，并查看它们涉及的渠道。",
++    "create": "新建部门",
++    "createTitle": "新建部门",
++    "editTitle": "编辑部门",
++    "name": "名称",
++    "namePlaceholder": "例如：研发部",
++    "description": "描述",
++    "descriptionPlaceholder": "这个团队负责什么？",
++    "color": "颜色",
++    "save": "保存",
++    "cancel": "取消",
++    "delete": "删除",
++    "deleteConfirm": "删除这个部门？",
++    "deleteConfirmDesc": "只删除分组关系，专家本身会保留。",
++    "empty": "还没有部门",
++    "emptyHint": "新建一个部门，把专家按部门归类。",
++    "searchPlaceholder": "搜索部门",
++    "agentCount": "位专家",
++    "channelCount": "个渠道",
++    "agents": "专家",
++    "channels": "渠道",
++    "addAgents": "添加专家",
++    "removeAgent": "从部门移除",
++    "noAgents": "该部门还没有专家",
++    "noChannels": "还没有渠道",
++    "agentAgencies": "所属部门",
++    "agentAgenciesPlaceholder": "选择部门",
++    "nameTaken": "该名称已被使用",
++    "loadFailed": "加载部门失败",
++    "saveFailed": "保存部门失败",
++    "deleteFailed": "删除部门失败",
++    "back": "全部部门",
++    "members": "成员"
++  },
+   "experts": {
+     "subtitle": "基于已配置的场景模板,一键创建预置身份/灵魂/心跳的智能体。每个专家自带 system prompt,新建后再绑定 provider 并启动即可。",
+     "loadFailed": "加载专家失败",

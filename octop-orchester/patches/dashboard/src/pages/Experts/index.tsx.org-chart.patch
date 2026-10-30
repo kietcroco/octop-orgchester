@@ -1,0 +1,19 @@
+diff --git a/dashboard/src/pages/Experts/index.tsx b/dashboard/src/pages/Experts/index.tsx
+index 456f086f..a928b094 100644
+--- a/dashboard/src/pages/Experts/index.tsx
++++ b/dashboard/src/pages/Experts/index.tsx
+@@ -355,6 +355,14 @@ export default function ExpertsPage() {
+     { mode: "create" } | { mode: "edit"; team: OctopAgent } | null
+   >(null);
+ 
++  // Deep link from the org chart: /experts?agent=<id> opens that agent's drawer.
++  useEffect(() => {
++    const wanted = searchParams.get("agent");
++    if (!wanted) return;
++    const row = localAgents.find((a) => a.agent_id === wanted);
++    if (row) setEditAgent(row);
++  }, [searchParams, localAgents]);
++
+   const handleEditSaved = useCallback(
+     (
+       updated: Pick<

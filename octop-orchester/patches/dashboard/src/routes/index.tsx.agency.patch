@@ -1,0 +1,37 @@
+diff --git a/dashboard/src/routes/index.tsx b/dashboard/src/routes/index.tsx
+index 2e6422d0..338d2079 100644
+--- a/dashboard/src/routes/index.tsx
++++ b/dashboard/src/routes/index.tsx
+@@ -3,6 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
+ 
+ // Lazy-loaded pages — Common
+ const ExpertsPage = lazy(() => import("../pages/Experts"));
++const AgenciesPage = lazy(() => import("../pages/Agencies"));
+ const CronJobsPage = lazy(() => import("../pages/Control/CronJobs"));
+ const ConnectorsPage = lazy(() => import("../pages/Agent/Connectors"));
+ const SkillPackagesPage = lazy(() => import("../pages/SkillPackages"));
+@@ -50,6 +51,7 @@ export const pathToKey: Record<string, string> = {
+   "/chat": "chat",
+   // Common
+   "/experts": "experts",
++  "/agencies": "agencies",
+   "/tasks": "tasks",
+   "/connectors": "connectors",
+   "/skill-packages": "skill-packages",
+@@ -137,6 +139,7 @@ export function isPersonalizationPath(pathname: string): boolean {
+ export function resolveSelectedKey(pathname: string): string {
+   if (pathToKey[pathname]) return pathToKey[pathname];
+   if (pathname.startsWith("/chat/")) return "chat";
++  if (pathname.startsWith("/agencies/")) return "agencies";
+   if (pathname.startsWith("/workbench/")) return "workbench";
+   if (pathname.startsWith("/remote-desktop/")) return "remote-desktop";
+   if (pathname.startsWith("/personalization/")) return "personalization";
+@@ -151,6 +154,8 @@ export const routeConfigs: RouteConfig[] = [
+ 
+   // Common
+   { path: "/experts", element: <ExpertsPage /> },
++  { path: "/agencies", element: <AgenciesPage /> },
++  { path: "/agencies/:agencyId", element: <AgenciesPage /> },
+   { path: "/tasks", element: <CronJobsPage /> },
+   { path: "/connectors", element: <ConnectorsPage /> },
+   { path: "/skill-packages", element: <SkillPackagesPage /> },

@@ -1,0 +1,166 @@
+diff --git a/src/octop/infra/history/trajectory/service.py b/src/octop/infra/history/trajectory/service.py
+index bc49d443..bd5a8fd8 100644
+--- a/src/octop/infra/history/trajectory/service.py
++++ b/src/octop/infra/history/trajectory/service.py
+@@ -5,7 +5,8 @@ from __future__ import annotations
+ import json
+ import logging
+ import time
+-from collections.abc import Iterator
++from collections.abc import Callable, Iterator
++from contextlib import suppress
+ from dataclasses import asdict, dataclass, field, replace
+ from typing import Any
+ 
+@@ -35,6 +36,8 @@ class _ThreadInFlight:
+     next_seq: int | None = None
+     system_seen: bool | None = None
+     last_publish_at: dict[str, float] = field(default_factory=dict)
++    #: Event ids already handed to a sink, so the second publish reads as ``delta``.
++    seen: set[str] = field(default_factory=set)
+ 
+ 
+ @dataclass(frozen=True)
+@@ -49,6 +52,15 @@ class TrajectoryService:
+         self._bus = bus
+         self._inflight: dict[str, _ThreadInFlight] = {}
+         self._metrics_cache: dict[str, _CachedMetrics] = {}
++        self._sinks: list[Callable[..., None]] = []
++
++    def attach_sink(self, sink: Callable[..., None]) -> None:
++        """Register an outbound sink. Called with ``(event, *, phase)`` per publish.
++
++        Sink exceptions are suppressed by ``_publish`` — a broken sink must never
++        break the chat stream.
++        """
++        self._sinks.append(sink)
+ 
+     def observe_chunk(self, agent_id: str, thread_id: str, chunk: dict[str, Any]) -> None:
+         try:
+@@ -143,23 +155,24 @@ class TrajectoryService:
+             assistant = state.assistant
+             if usage:
+                 assistant = replace(assistant, payload={**assistant.payload, **usage})
+-            self._upsert(_stamp_llm_duration(assistant), final=True)
++            self._upsert(_stamp_llm_duration(assistant), final=True, phase="completed")
+         elif state.usage_target is not None and usage:
+             target = replace(
+                 state.usage_target,
+                 payload={**state.usage_target.payload, **usage},
+             )
+-            self._upsert(target, final=True)
++            self._upsert(target, final=True, phase="completed")
+         for call_id in state.dirty_tools:
+             tool = state.tools.get(call_id)
+             if tool is not None:
+-                self._upsert(tool)
++                self._upsert(tool, phase="completed")
+         state.assistant = None
+         state.usage_target = None
+         state.tools.clear()
+         state.dirty_tools.clear()
+         state.tool_call_only = False
+         state.last_publish_at.clear()
++        state.seen.clear()
+         self._prune_retention(thread_id)
+ 
+     def _with_thread_defaults(self, event: TrajectoryEvent) -> TrajectoryEvent:
+@@ -191,7 +204,7 @@ class TrajectoryService:
+             self._publish_partial(merged)
+             return
+         self._finalize_assistant(event.thread_id)
+-        state.assistant = self._commit_new(event)
++        state.assistant = self._commit_new(event, phase="started")
+         state.usage_target = state.assistant
+ 
+     def _observe_tool(self, event: TrajectoryEvent) -> None:
+@@ -202,7 +215,9 @@ class TrajectoryService:
+         # DSH parity: only the model issues tool calls. When a tool burst starts
+         # with no open assistant text bubble, insert a synthetic parent row.
+         if current is None and state.assistant is None and not state.tool_call_only:
+-            state.usage_target = self._commit_new(_tool_call_only_parent(event))
++            state.usage_target = self._commit_new(
++                _tool_call_only_parent(event), phase="started"
++            )
+             state.tool_call_only = True
+ 
+         # Stop appending later tokens onto a prior text assistant once tools run.
+@@ -212,13 +227,13 @@ class TrajectoryService:
+             merged = _merge_tool(current, event)
+             state.tools[call_id] = merged
+             if "result" in event.payload:
+-                self._upsert(merged)
++                self._upsert(merged, phase="completed")
+                 state.dirty_tools.discard(call_id)
+             else:
+                 state.dirty_tools.add(call_id)
+                 self._publish_partial(merged)
+             return
+-        committed = self._commit_new(event)
++        committed = self._commit_new(event, phase="started")
+         if call_id:
+             state.tools[call_id] = committed
+ 
+@@ -229,26 +244,28 @@ class TrajectoryService:
+         current = state.assistant
+         if current is not None:
+             stamped = _stamp_llm_duration(current)
+-            self._upsert(stamped)
++            self._upsert(stamped, phase="completed")
+             state.usage_target = stamped
+         state.assistant = None
+         if not clear_only:
+             state.tool_call_only = False
+ 
+-    def _commit_new(self, event: TrajectoryEvent) -> TrajectoryEvent:
++    def _commit_new(self, event: TrajectoryEvent, *, phase: str = "completed") -> TrajectoryEvent:
+         seq = self._next_seq(event.thread_id)
+         stored = replace(event, seq=seq, event_id=_stable_event_id(event, seq))
+         if self._store.append(stored):
+             self._metrics_cache.pop(event.thread_id, None)
+             if event.kind == "system":
+                 self._inflight[event.thread_id].system_seen = True
+-            self._publish(stored)
++            self._publish(stored, phase=phase)
+         return stored
+ 
+-    def _upsert(self, event: TrajectoryEvent, *, final: bool = False) -> None:
++    def _upsert(
++        self, event: TrajectoryEvent, *, final: bool = False, phase: str | None = None
++    ) -> None:
+         if self._store.upsert(event):
+             self._metrics_cache.pop(event.thread_id, None)
+-            self._publish(event, final=final)
++            self._publish(event, final=final, phase=phase)
+ 
+     def _prune_retention(self, thread_id: str) -> None:
+         deleted = self._store.prune_older_than_user_turns(
+@@ -257,14 +274,24 @@ class TrajectoryService:
+         if deleted:
+             self._metrics_cache.pop(thread_id, None)
+ 
+-    def _publish(self, event: TrajectoryEvent, *, final: bool = False) -> None:
++    def _publish(
++        self, event: TrajectoryEvent, *, final: bool = False, phase: str | None = None
++    ) -> None:
+         message = asdict(event)
+         if final:
+             message["_final"] = True
+         self._bus.publish(event.thread_id, message)
+-        state = self._inflight.get(event.thread_id)
+-        if state is not None:
+-            state.last_publish_at[event.event_id] = time.monotonic()
++        state = self._inflight.setdefault(event.thread_id, _ThreadInFlight())
++        state.last_publish_at[event.event_id] = time.monotonic()
++        if not self._sinks:
++            return
++        # First publish of an id is the "started" phase; every later one is a
++        # "delta" unless the caller knows it closed the record (completed).
++        resolved = phase or ("started" if event.event_id not in state.seen else "delta")
++        state.seen.add(event.event_id)
++        for sink in self._sinks:
++            with suppress(Exception):
++                sink(event, phase=resolved, final=final)
+ 
+     def _publish_partial(self, event: TrajectoryEvent) -> None:
+         state = self._inflight[event.thread_id]

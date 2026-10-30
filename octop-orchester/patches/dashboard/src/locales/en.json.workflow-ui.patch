@@ -1,0 +1,112 @@
+diff --git a/dashboard/src/locales/en.json b/dashboard/src/locales/en.json
+index c5df88c5..0c0ca7ff 100644
+--- a/dashboard/src/locales/en.json
++++ b/dashboard/src/locales/en.json
+@@ -256,6 +256,7 @@
+     "experts": "Experts",
+     "agencies": "Agencies",
+     "orgChart": "Org chart",
++    "flows": "Flows",
+     "tasks": "Automation",
+     "connectors": "Connectors",
+     "bridge": "Cloud collab",
+@@ -856,6 +857,99 @@
+       "noModel": "No model"
+     }
+   },
++  "flows": {
++    "title": "Flows",
++    "subtitle": "Build automations that react to messages and schedules.",
++    "create": "Add flow",
++    "searchPlaceholder": "Search flows",
++    "empty": "No flows yet",
++    "emptyHint": "Create your first flow to automate a repetitive task.",
++    "loadFailed": "Could not load flows",
++    "back": "All flows",
++    "notFound": "Flow not found",
++    "notFoundHint": "It may have been deleted. Go back to the list.",
++    "stepCount": "steps",
++    "updatedAt": "Updated",
++    "status": {
++      "active": "Active",
++      "paused": "Paused",
++      "draft": "Draft"
++    },
++    "actions": {
++      "more": "More actions",
++      "setActive": "Activate",
++      "setPaused": "Pause",
++      "setDraft": "Move to draft"
++    },
++    "delete": "Delete",
++    "deleteConfirm": "Delete this flow?",
++    "deleteConfirmDesc": "The flow and its steps will be removed. This cannot be undone.",
++    "cancel": "Cancel",
++    "deleteFailed": "Could not delete the flow",
++    "statusFailed": "Could not change the status",
++    "createTitle": "New flow",
++    "template": "Start from",
++    "name": "Name",
++    "namePlaceholder": "e.g. Answer common questions",
++    "description": "Description",
++    "descriptionPlaceholder": "What does this flow do?",
++    "save": "Create",
++    "saveFailed": "Could not create the flow",
++    "created": "Flow created",
++    "categories": {
++      "trigger": "Triggers",
++      "ai": "AI",
++      "logic": "Logic",
++      "apps": "Connect apps",
++      "data": "Data",
++      "actions": "Actions"
++    },
++    "builder": {
++      "back": "Back to flows",
++      "nameLabel": "Flow name",
++      "statusLabel": "Status",
++      "save": "Save",
++      "saved": "Flow saved",
++      "saveFailed": "Could not save the flow",
++      "run": "Run",
++      "runDisabled": "Running a flow needs the flow engine, which is not available yet.",
++      "emptyTitle": "Let's build your first flow",
++      "emptyHint": "A flow is a sequence of automated steps. Start from a template, or add steps from the left panel as they become available.",
++      "templatesTitle": "Start from a template",
++      "startersTitle": "…or start with a trigger",
++      "unknownNode": "Untitled step",
++      "paletteSearch": "Search a step…",
++      "paletteNoMatch": "No steps match your search",
++      "inspectorEmpty": "Select a step to see its details.",
++      "nodeName": "Step name",
++      "nodeType": "Type",
++      "deleteNode": "Delete step",
++      "noSettingsYet": "This step has no settings yet.",
++      "groupEmpty": "No steps yet"
++    },
++    "templates": {
++      "blank": {
++        "name": "Blank flow",
++        "description": "Start with an empty canvas."
++      },
++      "faq": {
++        "name": "Answer common questions",
++        "description": "When a message arrives, an agent replies.",
++        "nodes": {
++          "trigger": "When a message arrives",
++          "agent": "Reply with an agent"
++        }
++      },
++      "alert": {
++        "name": "Notify on a new message",
++        "description": "When a message arrives, send a notification.",
++        "nodes": {
++          "trigger": "When a message arrives",
++          "notify": "Send a notification"
++        }
++      }
++    }
++  },
+   "experts": {
+     "subtitle": "Spin up a pre-configured agent (with identity / soul / heartbeat baked in) from a scenario template. Each expert ships with its own system prompt — once created, just bind a provider and start it.",
+     "loadFailed": "Failed to load experts",

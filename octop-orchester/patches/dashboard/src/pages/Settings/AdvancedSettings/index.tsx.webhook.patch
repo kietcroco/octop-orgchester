@@ -1,0 +1,49 @@
+diff --git a/dashboard/src/pages/Settings/AdvancedSettings/index.tsx b/dashboard/src/pages/Settings/AdvancedSettings/index.tsx
+index 6cf906a..60a4810 100644
+--- a/dashboard/src/pages/Settings/AdvancedSettings/index.tsx
++++ b/dashboard/src/pages/Settings/AdvancedSettings/index.tsx
+@@ -7,9 +7,11 @@ import {
+   ShieldCheck,
+   Variable,
+   Activity,
++  Webhook,
+ } from "lucide-react";
+ import EnvironmentsPage from "../Environments";
+ import { ObservabilitySettingsPanel } from "../Observability";
++import { WebhooksSettingsPanel } from "../Webhooks";
+ import BackupRestorePanel from "../BackupRestore";
+ import { HttpsSettingsPanel } from "../HttpsSettings";
+ import UpdateConfig from "./UpdateConfig";
+@@ -24,6 +26,7 @@ import { ADVANCED_TAB_PERMISSIONS } from "../../../utils/permissions";
+ type TabKey =
+   | "env-vars"
+   | "observability"
++  | "webhooks"
+   | "backup"
+   | "https"
+   | "updates"
+@@ -32,6 +35,7 @@ type TabKey =
+ const TABS: TabBarItem<TabKey>[] = [
+   { key: "env-vars", labelKey: "nav.environments", icon: Variable },
+   { key: "observability", labelKey: "nav.observability", icon: Activity },
++  { key: "webhooks", labelKey: "nav.webhooks", icon: Webhook },
+   { key: "backup", labelKey: "nav.backupRestore", icon: Archive },
+   { key: "https", labelKey: "nav.https", icon: Lock },
+   { key: "captcha", labelKey: "nav.loginCaptcha", icon: ShieldCheck },
+@@ -41,6 +45,7 @@ const TABS: TabBarItem<TabKey>[] = [
+ function parseTab(raw: string | null): TabKey {
+   if (
+     raw === "observability" ||
++    raw === "webhooks" ||
+     raw === "backup" ||
+     raw === "https" ||
+     raw === "updates" ||
+@@ -77,6 +82,8 @@ export default function AdvancedSettingsPage() {
+         return <EnvironmentsPage />;
+       case "observability":
+         return <ObservabilitySettingsPanel />;
++      case "webhooks":
++        return <WebhooksSettingsPanel />;
+       case "backup":
+         return <BackupRestorePanel />;
+       case "https":

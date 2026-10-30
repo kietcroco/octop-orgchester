@@ -1,0 +1,112 @@
+diff --git a/dashboard/src/locales/zh.json b/dashboard/src/locales/zh.json
+index 59c63c66..b57a50cd 100644
+--- a/dashboard/src/locales/zh.json
++++ b/dashboard/src/locales/zh.json
+@@ -256,6 +256,7 @@
+     "experts": "专家",
+     "agencies": "部门",
+     "orgChart": "组织架构",
++    "flows": "流程",
+     "tasks": "自动化",
+     "connectors": "连接器",
+     "bridge": "云端协同",
+@@ -856,6 +857,99 @@
+       "noModel": "未设置模型"
+     }
+   },
++  "flows": {
++    "title": "流程",
++    "subtitle": "构建响应消息和定时任务的自动化流程。",
++    "create": "新建流程",
++    "searchPlaceholder": "搜索流程",
++    "empty": "暂无流程",
++    "emptyHint": "创建第一个流程，自动完成重复性工作。",
++    "loadFailed": "加载流程失败",
++    "back": "全部流程",
++    "notFound": "未找到该流程",
++    "notFoundHint": "它可能已被删除，请返回列表。",
++    "stepCount": "个步骤",
++    "updatedAt": "更新于",
++    "status": {
++      "active": "启用中",
++      "paused": "已暂停",
++      "draft": "草稿"
++    },
++    "actions": {
++      "more": "更多操作",
++      "setActive": "启用",
++      "setPaused": "暂停",
++      "setDraft": "移到草稿"
++    },
++    "delete": "删除",
++    "deleteConfirm": "删除此流程？",
++    "deleteConfirmDesc": "流程及其步骤将被移除，且无法恢复。",
++    "cancel": "取消",
++    "deleteFailed": "删除流程失败",
++    "statusFailed": "修改状态失败",
++    "createTitle": "新建流程",
++    "template": "从模板开始",
++    "name": "名称",
++    "namePlaceholder": "例如：解答常见问题",
++    "description": "描述",
++    "descriptionPlaceholder": "这个流程用来做什么？",
++    "save": "创建",
++    "saveFailed": "创建流程失败",
++    "created": "流程已创建",
++    "categories": {
++      "trigger": "触发器",
++      "ai": "AI",
++      "logic": "逻辑",
++      "apps": "连接应用",
++      "data": "数据",
++      "actions": "动作"
++    },
++    "builder": {
++      "back": "返回流程列表",
++      "nameLabel": "流程名称",
++      "statusLabel": "状态",
++      "save": "保存",
++      "saved": "流程已保存",
++      "saveFailed": "保存流程失败",
++      "run": "运行",
++      "runDisabled": "运行流程需要流程引擎，暂未提供。",
++      "emptyTitle": "开始构建你的第一个流程",
++      "emptyHint": "流程是一系列自动化步骤。可以从模板开始，也可以在左侧面板添加步骤（陆续开放）。",
++      "templatesTitle": "从模板开始",
++      "startersTitle": "…或从触发器开始",
++      "unknownNode": "未命名步骤",
++      "paletteSearch": "搜索步骤…",
++      "paletteNoMatch": "没有匹配的步骤",
++      "inspectorEmpty": "选择一个步骤以查看详情。",
++      "nodeName": "步骤名称",
++      "nodeType": "类型",
++      "deleteNode": "删除步骤",
++      "noSettingsYet": "该步骤暂无可配置项。",
++      "groupEmpty": "暂无步骤"
++    },
++    "templates": {
++      "blank": {
++        "name": "空白流程",
++        "description": "从空白画布开始。"
++      },
++      "faq": {
++        "name": "解答常见问题",
++        "description": "收到消息时由智能体回复。",
++        "nodes": {
++          "trigger": "收到消息时",
++          "agent": "由智能体回复"
++        }
++      },
++      "alert": {
++        "name": "新消息提醒",
++        "description": "收到消息时发送通知。",
++        "nodes": {
++          "trigger": "收到消息时",
++          "notify": "发送通知"
++        }
++      }
++    }
++  },
+   "experts": {
+     "subtitle": "基于已配置的场景模板,一键创建预置身份/灵魂/心跳的智能体。每个专家自带 system prompt,新建后再绑定 provider 并启动即可。",
+     "loadFailed": "加载专家失败",

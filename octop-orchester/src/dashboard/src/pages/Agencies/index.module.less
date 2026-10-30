@@ -1,0 +1,455 @@
+/* ================================================================
+   Agencies page — list + detail.
+   ================================================================ */
+
+/* ── Toolbar ──────────────────────────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 4px 0 0;
+}
+
+.toolbarSearch {
+  width: 240px;
+  min-width: 140px;
+  max-width: 100%;
+
+  @media (max-width: 640px) {
+    width: auto;
+    flex: 1 1 160px;
+  }
+}
+
+.searchEmpty {
+  padding: 28px 12px 12px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--fn-text-tertiary);
+}
+
+/* ── List ─────────────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  row-gap: 16px;
+  column-gap: 12px;
+  padding: 20px 0 40px;
+
+  @media (max-width: 640px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+.gridMobile {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  min-height: 132px;
+  padding: 16px;
+  background: var(--fn-bg-primary);
+  border: 1px solid var(--fn-card-border-normal);
+  border-radius: var(--fn-radius-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+
+  &:hover,
+  &:focus-visible {
+    border-color: color-mix(
+      in srgb,
+      var(--fn-color-brand) 22%,
+      var(--fn-card-border-normal)
+    );
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 640px) {
+    min-height: 0;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cardAvatar {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.cardTitle {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fn-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--fn-color-brand);
+  }
+}
+
+.cardDesc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--fn-text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+  min-height: 2.4em;
+}
+
+.cardMeta {
+  margin-top: auto;
+  font-size: 12px;
+  color: var(--fn-text-tertiary);
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+
+  .card:hover &,
+  .card:focus-within & {
+    opacity: 1;
+  }
+
+  /* Touch devices never hover — always show. */
+  @media (hover: none) {
+    opacity: 1;
+  }
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--fn-border-primary);
+  border-radius: var(--fn-radius-sm);
+  background: transparent;
+  color: var(--fn-text-secondary);
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    background 0.15s;
+
+  &:hover:not(:disabled) {
+    color: var(--fn-color-brand);
+    border-color: var(--fn-color-brand);
+    background: var(--fn-color-brand-light, #e6f4ff);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.iconBtnDanger {
+  &:hover:not(:disabled) {
+    color: #ff4d4f;
+    border-color: #ff4d4f;
+    background: #fff1f0;
+  }
+}
+
+/* ── Shared states ────────────────────────────────────────────── */
+
+.loadingState {
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+/* ── Detail ───────────────────────────────────────────────────── */
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding-bottom: 24px;
+}
+
+.backLink {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--fn-text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--fn-color-brand);
+  }
+}
+
+.detailHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detailAvatar {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.detailTitleBlock {
+  flex: 1;
+  min-width: 0;
+}
+
+.detailName {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fn-text-primary);
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.detailDesc {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--fn-text-secondary);
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.detailActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.counters {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--fn-radius-md);
+  background: var(--fn-bg-secondary);
+  font-size: 12px;
+  color: var(--fn-text-secondary);
+}
+
+.counterValue {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fn-text-primary);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+
+  @media (max-width: 960px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 16px;
+  background: var(--fn-bg-primary);
+  border: 1px solid var(--fn-card-border-normal);
+  border-radius: var(--fn-radius-lg);
+}
+
+.panelTitle {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fn-text-tertiary);
+}
+
+.panelEmpty {
+  padding: 20px 8px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--fn-text-tertiary);
+}
+
+/* ── Member rows ──────────────────────────────────────────────── */
+
+.memberList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.memberRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--fn-border-primary);
+  border-radius: var(--fn-radius-md);
+  background: var(--fn-bg-secondary);
+}
+
+.memberBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.memberName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fn-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memberMeta {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--fn-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memberRemove {
+  flex-shrink: 0;
+}
+
+.addRow {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+}
+
+.addSelect {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Channel rows ─────────────────────────────────────────────── */
+
+.channelRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--fn-border-primary);
+  border-radius: var(--fn-radius-md);
+}
+
+.channelBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.channelName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fn-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.channelAgent {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--fn-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Agent ↔ agency picker (drawer section) ───────────────────── */
+
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.pickerLabel {
+  font-size: 13px;
+  color: var(--fn-text-secondary);
+}

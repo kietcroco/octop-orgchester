@@ -1,11 +1,179 @@
+# Patch registry for octop-orchester.
+#
+# Layout: patches/<path identical to octop/>.<patch-id>.patch
+#         New files (no diff) live in octop-orchester/src/<path identical to octop/>.
+#
+# One YAML document per patch, separated by `---`. No script parses this file
+# today; it is read by humans and by the rebase workflow in README §8.
+---
 patch:
   id: vi-i18n
   name: Vietnamese (vi) UI localization
   target_repo: octop
   base_commit: 890111b7
-  base_describe: v0.9.16-825-g890111b7
-  applies_to:
-    - dashboard/**
-    - src/**
-  strategy: git apply at image build time (Dockerfile stages)
+  base_describe: v0.9.16-824-g890111b7   # `git -C octop describe`
+  base_tag: v1.0.3b1                      # tag pointing at base_commit
   status: active
+  doc: README.md
+  applies_to:
+    - dashboard/src/App.tsx
+    - dashboard/src/api/modules/decision.ts
+    - dashboard/src/api/request.ts
+    - dashboard/src/components/AvatarDropdown.tsx
+    - dashboard/src/i18n.ts
+    - dashboard/src/locales/en.json
+    - dashboard/src/locales/zh.json
+    - dashboard/src/pages/Invite/index.tsx
+    - dashboard/src/pages/Setup/index.tsx
+    - dashboard/src/utils/localePrefs.ts
+    - src/octop/api/routers/preferences.py
+    - src/octop/i18n/loader.py
+    - src/octop/infra/utils/locale.py
+  adds:
+    - src/dashboard/src/locales/vi.json
+    - src/src/octop/i18n/vi.json
+---
+patch:
+  id: agency
+  name: Agencies (departments grouping agents) + overlay migration layer
+  target_repo: octop
+  base_commit: 890111b7
+  base_describe: v0.9.16-824-g890111b7
+  base_tag: v1.0.3b1
+  status: active
+  doc: README.md
+  applies_to:
+    - dashboard/src/layouts/sidebarNav.tsx
+    - dashboard/src/layouts/sidebarNavLayout.test.ts
+    - dashboard/src/locales/en.json
+    - dashboard/src/locales/zh.json
+    - dashboard/src/pages/Experts/components/EditAgentDrawer.tsx
+    - dashboard/src/routes/index.tsx
+    - dashboard/src/routes/prefetch.ts
+    - src/octop/api/app.py
+    - src/octop/infra/server.py
+    - src/octop/infra/users/preferences.py
+  adds:
+    - src/dashboard/src/api/modules/agency.test.ts
+    - src/dashboard/src/api/modules/agency.ts
+    - src/dashboard/src/pages/Agencies/components/AgencyAgentList.tsx
+    - src/dashboard/src/pages/Agencies/components/AgencyCard.tsx
+    - src/dashboard/src/pages/Agencies/components/AgencyChannelList.tsx
+    - src/dashboard/src/pages/Agencies/components/AgencyFormModal.tsx
+    - src/dashboard/src/pages/Agencies/components/AgentAgencyPicker.tsx
+    - src/dashboard/src/pages/Agencies/index.module.less
+    - src/dashboard/src/pages/Agencies/index.tsx
+    - src/src/octop/api/routers/agencies.py
+    - src/src/octop/overlay/__init__.py
+    - src/src/octop/overlay/migrate.py
+    - src/src/octop/overlay/migrations/001_agency.pg.sql
+    - src/src/octop/overlay/migrations/001_agency.sql
+---
+patch:
+  id: en-default
+  name: Fresh install defaults to English instead of Chinese
+  target_repo: octop
+  base_commit: 890111b7
+  base_describe: v0.9.16-824-g890111b7
+  base_tag: v1.0.3b1
+  status: active
+  doc: README.md
+  applies_to:
+    - src/octop/cli/commands/init.py
+---
+patch:
+  id: org-chart
+  name: Org chart canvas (departments -> experts, team host -> member edges)
+  target_repo: octop
+  base_commit: 890111b7
+  base_describe: v0.9.16-824-g890111b7
+  base_tag: v1.0.3b1
+  status: active
+  doc: README.md
+  # package.json/package-lock.json live in patches/dashboard-pkg/ because they
+  # must be applied BEFORE `npm ci`; the rest apply after the sources are copied.
+  applies_to:
+    - dashboard/package.json
+    - dashboard/package-lock.json
+    - dashboard/src/layouts/sidebarNav.tsx
+    - dashboard/src/layouts/sidebarNavLayout.test.ts
+    - dashboard/src/locales/en.json
+    - dashboard/src/locales/zh.json
+    - dashboard/src/pages/Experts/index.tsx
+    - dashboard/src/routes/index.tsx
+    - dashboard/src/routes/prefetch.ts
+    - src/octop/api/app.py
+    - src/octop/infra/users/preferences.py
+  adds:
+    - src/dashboard/src/api/modules/orgChart.ts
+    - src/dashboard/src/pages/OrgChart/components/nodes.tsx
+    - src/dashboard/src/pages/OrgChart/index.module.less
+    - src/dashboard/src/pages/OrgChart/index.tsx
+    - src/dashboard/src/pages/OrgChart/layout.test.ts
+    - src/dashboard/src/pages/OrgChart/layout.ts
+    - src/src/octop/api/routers/orgchart.py
+    - scripts/orgchart_route_selfcheck.py
+    - scripts/orgchart_api_smoke.py
+---
+patch:
+  id: webhook
+  name: Agent event webhooks (signed outbound delivery of every trajectory event)
+  target_repo: octop
+  base_commit: 890111b7
+  base_describe: v0.9.16-824-g890111b7
+  base_tag: v1.0.3b1
+  status: active
+  doc: docs/03-WEBHOOK-ARCHITECTURE.md
+  # Depends on the `agency` patch: overlay migration runner (run_overlay_migrations)
+  # is installed by that patch, and 002_webhook only adds files to its folder.
+  depends_on:
+    - agency
+  applies_to:
+    - dashboard/src/locales/en.json
+    - dashboard/src/locales/zh.json
+    - dashboard/src/pages/Settings/AdvancedSettings/index.tsx
+    - dashboard/src/utils/permissions.ts
+    - src/octop/api/app.py
+    - src/octop/infra/history/trajectory/service.py
+    - src/octop/infra/server.py
+  adds:
+    - src/dashboard/src/api/modules/webhooks.ts
+    - src/dashboard/src/pages/Settings/Webhooks/index.module.less
+    - src/dashboard/src/pages/Settings/Webhooks/index.tsx
+    - src/src/octop/api/routers/webhooks.py
+    - src/src/octop/overlay/migrations/002_webhook.pg.sql
+    - src/src/octop/overlay/migrations/002_webhook.sql
+    - src/src/octop/overlay/webhook/__init__.py
+    - src/src/octop/overlay/webhook/dispatcher.py
+    - src/src/octop/overlay/webhook/signing.py
+    - src/src/octop/overlay/webhook/store.py
+    - scripts/seed_provider.py
+    - scripts/webhook_e2e.py
+    - scripts/webhook_live_test.py
+    - scripts/webhook_receiver.py
+    - scripts/webhook_selfcheck.py
+---
+patch:
+  id: workflow-ui
+  name: Flows (list + create-flow screens on mock data; builder/engine land in later patches)
+  target_repo: octop
+  base_commit: 890111b7
+  base_describe: v0.9.16-824-g890111b7
+  base_tag: v1.0.3b1
+  status: active
+  doc: ../docs/04-FLOWS-ARCHITECTURE.md
+  # Must sort AFTER agency and org-chart: patch_status.py and the Dockerfile apply patches
+  # in file-name order, and these hunks sit next to the lines those patches add.
+  applies_to:
+    - dashboard/src/layouts/sidebarNav.tsx
+    - dashboard/src/layouts/sidebarNavLayout.test.ts
+    - dashboard/src/locales/en.json
+    - dashboard/src/locales/zh.json
+    - dashboard/src/routes/index.tsx
+    - dashboard/src/routes/prefetch.ts
+    - src/octop/infra/users/preferences.py   # SIDEBAR_NAV_KEYS whitelist
+  adds:
+    - src/dashboard/src/api/modules/flows.ts
+    - src/dashboard/src/api/modules/flows.test.ts
+    - src/dashboard/src/pages/Flows/
+    - src/dashboard/src/locales/vi.json   # flows.* + nav.flows keys appended

@@ -1,0 +1,254 @@
+/* ================================================================
+   Flows page — list + detail placeholder.
+   Class names follow pages/Agencies/index.module.less.
+   ================================================================ */
+
+/* ── Toolbar ──────────────────────────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 4px 0 0;
+}
+
+.toolbarSearch {
+  width: 240px;
+  min-width: 140px;
+  max-width: 100%;
+
+  @media (max-width: 640px) {
+    width: auto;
+    flex: 1 1 160px;
+  }
+}
+
+.searchEmpty {
+  padding: 28px 12px 12px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--fn-text-tertiary);
+}
+
+.loadingState {
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+/* ── Status groups ────────────────────────────────────────────── */
+
+.group {
+  padding-top: 20px;
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fn-text-secondary);
+}
+
+.groupCount {
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--fn-bg-elevated);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+  color: var(--fn-text-tertiary);
+}
+
+/* ── Cards ────────────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  row-gap: 16px;
+  column-gap: 12px;
+  padding: 12px 0 8px;
+
+  @media (max-width: 640px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+}
+
+.gridMobile {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  min-height: 132px;
+  padding: 16px;
+  background: var(--fn-bg-primary);
+  border: 1px solid var(--fn-card-border-normal);
+  border-radius: var(--fn-radius-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s,
+    transform 0.2s;
+
+  &:hover,
+  &:focus-visible {
+    border-color: color-mix(
+      in srgb,
+      var(--fn-color-brand) 22%,
+      var(--fn-card-border-normal)
+    );
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 640px) {
+    min-height: 0;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cardTitle {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fn-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--fn-color-brand);
+  }
+}
+
+.cardDesc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--fn-text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+  min-height: 2.4em;
+}
+
+.cardMeta {
+  margin-top: auto;
+  font-size: 12px;
+  color: var(--fn-text-tertiary);
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--fn-border-primary);
+  border-radius: var(--fn-radius-sm);
+  background: transparent;
+  color: var(--fn-text-secondary);
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    background 0.15s;
+
+  &:hover {
+    color: var(--fn-color-brand);
+    border-color: var(--fn-color-brand);
+  }
+}
+
+/* ── Detail placeholder ───────────────────────────────────────── */
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding-bottom: 24px;
+}
+
+.backLink {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--fn-text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--fn-color-brand);
+  }
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detailName {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fn-text-primary);
+}
+
+.detailDesc {
+  margin: 0;
+  font-size: 13px;
+  color: var(--fn-text-secondary);
+}
+
+.detailNote {
+  padding: 20px;
+  border: 1px dashed var(--fn-border-primary);
+  border-radius: var(--fn-radius-lg);
+  text-align: center;
+  font-size: 13px;
+  color: var(--fn-text-tertiary);
+}

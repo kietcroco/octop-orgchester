@@ -1,0 +1,12 @@
+diff --git a/src/octop/infra/users/preferences.py b/src/octop/infra/users/preferences.py
+index 3282f0c4..227cec87 100644
+--- a/src/octop/infra/users/preferences.py
++++ b/src/octop/infra/users/preferences.py
+@@ -25,6 +25,7 @@ SIDEBAR_NAV_KEYS = frozenset(
+         "experts",
+         "agencies",
+         "org-chart",
++        "flows",
+         "tasks",
+         "token-usage",
+         "personalization",

@@ -1,19 +1,27 @@
 # syntax=docker/dockerfile:1
 # =============================================================================
-# Octop-Orchester — multi-stage Docker build
+# Octop-Orchester — customization layer on top of a locally-built Octop image
 #
-# Source is copied from the `octop/` submodule (build context = repo root).
-# Mirrors octop/docker/Dockerfile; customizations go here, not in the submodule.
+# The base is NOT duplicated here: it is built by `octop/docker/Dockerfile`
+# from the checked-out submodule, then this file inherits it (see
+# docker-compose.yml — the base arrives as a buildx named context, so it is
+# rebuilt from source instead of being pulled from a registry).
 #
-# Build (from repo root):
+# Only the dashboard is rebuilt: the backend customization is a set of patches
+# plus a locale file, but the published bundle ships antd/dayjs for zh+en only,
+# so the vi locale cannot be added without a Vite build.
+#
+# Build (from octop-orchester/, gets ordering for free):
+#   docker compose up -d
+#
+# Build by hand (base image must exist first):
+#   docker build -f octop/docker/Dockerfile -t octop-base:local octop
 #   docker build -f octop-orchester/Dockerfile -t octop-orchester:latest .
-#
-# Or via Compose (from octop-orchester/):
-#   docker compose up -d --build
 # =============================================================================
+ARG OCTOP_BASE=octop-base:local
 
 # ---------------------------------------------------------------------------
-# Stage 1 — frontend build
+# Stage 1 — dashboard build
 # ---------------------------------------------------------------------------
 FROM node:20-slim AS frontend-builder
 
@@ -28,6 +36,23 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && rm -rf /var/lib/apt/lists/*
 
 COPY octop/dashboard/package.json octop/dashboard/package-lock.json ./
+
+# Dependency patches must land BEFORE `npm ci`: a patch that adds a package
+# would otherwise be invisible to the install, and the build would fail at
+# import time. Everything else stays in patches/dashboard/ (applied later).
+# Patch paths are octop-root-relative (dashboard/...), so apply from /build —
+# the same convention the later source patches use.
+COPY octop-orchester/patches/dashboard-pkg/ /tmp/patches-pkg/
+RUN set -eu; \
+    cd /build; \
+    if [ -d /tmp/patches-pkg ]; then \
+      for p in $(find /tmp/patches-pkg -name '*.patch' | sort); do \
+        echo "applying $p"; \
+        git apply --whitespace=nowarn "$p" || { echo "FAILED: $p"; exit 1; }; \
+      done; \
+    fi; \
+    rm -rf /tmp/patches-pkg
+
 RUN --mount=type=cache,target=/root/.npm,sharing=locked \
     set -eu; \
     if [ -n "$NPM_REGISTRY" ]; then npm config set registry "$NPM_REGISTRY"; fi; \
@@ -37,14 +62,17 @@ RUN --mount=type=cache,target=/root/.npm,sharing=locked \
 
 COPY octop/dashboard/ ./
 
-# Apply frontend hunks of every patch (patch paths are octop/-root-relative)
+# New frontend files (src/ mirrors octop's tree) — copied before patching
+COPY octop-orchester/src/dashboard/ ./
+
+# Apply every frontend patch. Patch paths are octop-root-relative
+# (dashboard/src/...), so apply from /build.
 COPY octop-orchester/patches/ /tmp/patches/
 WORKDIR /build
 RUN set -eu; \
-    for p in /tmp/patches/*/patch.diff; do \
-      echo "applying frontend hunks of $p"; \
-      git apply --include='dashboard/*' --whitespace=nowarn "$p" \
-        || { echo "FAILED: $p"; exit 1; }; \
+    for p in $(find /tmp/patches/dashboard -name '*.patch' | sort); do \
+      echo "applying $p"; \
+      git apply --whitespace=nowarn "$p" || { echo "FAILED: $p"; exit 1; }; \
     done; \
     rm -rf /tmp/patches
 
@@ -56,98 +84,41 @@ RUN NODE_ENV=production NODE_OPTIONS="--max-old-space-size=${NODE_MAX_OLD_SPACE_
 
 
 # ---------------------------------------------------------------------------
-# Stage 2 — Python runtime
+# Stage 2 — base runtime + customization
 # ---------------------------------------------------------------------------
-FROM python:3.12-slim AS runtime
+FROM ${OCTOP_BASE}
 
-LABEL maintainer="OrcaKit Team"
-LABEL org.opencontainers.image.title="Octop-Orchester"
-LABEL org.opencontainers.image.description="Octop customized with Orchester features."
-LABEL org.opencontainers.image.source="https://github.com/TencentCloud/Octop"
-LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.title="Octop-Orchester" \
+      org.opencontainers.image.description="Octop built from source with the Orchester customization layer (Vietnamese locale)." \
+      org.opencontainers.image.licenses="MIT"
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    HOME=/data \
-    OCTOP_BIND_HOST=0.0.0.0 \
-    OCTOP_PORT=8088 \
-    OCTOP_LOG_LEVEL=info \
-    UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy \
-    UV_PYTHON_DOWNLOADS=never
+# New backend files (src/ mirrors octop's tree)
+COPY octop-orchester/src/src/ /app/src/
 
-ARG PIP_INDEX_URL=
-ARG PIP_TRUSTED_HOST=
-ARG APT_MIRROR=
-
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    if [ -n "$APT_MIRROR" ]; then \
-        printf 'Types: deb\nURIs: https://%s/debian\nSuites: trixie trixie-updates\nComponents: main contrib non-free non-free-firmware\n\nTypes: deb\nURIs: https://%s/debian-security\nSuites: trixie-security\nComponents: main contrib non-free non-free-firmware\n' \
-            "$APT_MIRROR" "$APT_MIRROR" > /etc/apt/sources.list.d/debian.sources; \
-    fi \
-    && apt-get update && apt-get install -y --no-install-recommends \
-        build-essential \
-        libffi-dev \
-        libgl1 \
-        libglib2.0-0 \
-        curl \
-        git \
-        ripgrep \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY --from=ghcr.io/astral-sh/uv:0.7 /uv /uvx /bin/
-
-WORKDIR /app
-
-# Install locked dependencies first so source-only changes reuse this layer
-COPY octop/pyproject.toml octop/uv.lock octop/README.md octop/LICENSE ./
-RUN --mount=type=cache,target=/root/.cache/uv \
-    if [ -n "$PIP_INDEX_URL" ]; then \
-        export UV_INDEX_URL="$PIP_INDEX_URL"; \
-        if [ -n "$PIP_TRUSTED_HOST" ]; then export UV_INSECURE_HOST="$PIP_TRUSTED_HOST"; fi; \
-    fi \
-    && uv sync --frozen --no-install-project --no-dev \
-        --extra browser --extra local-embedding --extra knowledge-ocr
-
-ENV PATH="/app/.venv/bin:$PATH" \
-    PLAYWRIGHT_BROWSERS_PATH=/root/.cache/ms-playwright
-
-COPY octop/src/ ./src/
-COPY --from=frontend-builder /build/src/octop/dashboard/ ./src/octop/dashboard/
-
-# Apply backend hunks of every patch (patch paths are octop/-root-relative)
+# Apply every backend patch from the app root (octop-root-relative paths).
+# The base installs octop in editable mode (.pth -> /app/src), so patched
+# sources take effect without reinstalling.
 COPY octop-orchester/patches/ /tmp/patches/
 RUN set -eu; \
-    for p in /tmp/patches/*/patch.diff; do \
-      echo "applying backend hunks of $p"; \
-      git apply --include='src/*' --whitespace=nowarn "$p" \
-        || { echo "FAILED: $p"; exit 1; }; \
+    cd /app; \
+    for p in $(find /tmp/patches/src -name '*.patch' | sort); do \
+      echo "applying $p"; \
+      git apply --whitespace=nowarn "$p" || { echo "FAILED: $p"; exit 1; }; \
     done; \
     rm -rf /tmp/patches
 
-COPY octop/.env.example ./
-COPY octop/docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# Replace the base's bundle. COPY merges directories, so the base's stale
+# hashed chunks are removed first instead of lingering.
+RUN rm -rf /app/src/octop/dashboard
+COPY --from=frontend-builder /build/src/octop/dashboard/ /app/src/octop/dashboard/
 
-RUN --mount=type=cache,target=/root/.cache/uv \
-    if [ -n "$PIP_INDEX_URL" ]; then \
-        export UV_INDEX_URL="$PIP_INDEX_URL"; \
-        if [ -n "$PIP_TRUSTED_HOST" ]; then export UV_INSECURE_HOST="$PIP_TRUSTED_HOST"; fi; \
-    fi \
-    && uv sync --frozen --no-dev \
-        --extra browser --extra local-embedding --extra knowledge-ocr \
-    && .venv/bin/python -c "import cv2, fastembed, huggingface_hub, rapidocr, onnxruntime, pymupdf" \
-    && apt-get update && apt-get install -y --no-install-recommends fonts-noto-cjk \
-    && apt-get purge -y --auto-remove build-essential \
-    && rm -rf /var/lib/apt/lists/* /tmp/*
+# The venv is a named volume in compose, so it outlives the container. Docker
+# seeds it from this image the first time and then never touches it again, so a
+# rebuilt image would otherwise run new code against a stale venv. Stamp the
+# build inputs here; the entrypoint syncs only when the stamp no longer matches.
+RUN cat /app/uv.lock /app/pyproject.toml | sha256sum | cut -d' ' -f1 > /app/.venv/.image-stamp
 
-RUN mkdir -p /data/.octop
+COPY octop-orchester/docker/octop-entrypoint.sh /usr/local/bin/octop-entrypoint.sh
+RUN chmod +x /usr/local/bin/octop-entrypoint.sh
 
-EXPOSE 8088
-
-HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
-    CMD ["sh", "-c", "curl -f http://localhost:${OCTOP_PORT:-8088}/api/health || exit 1"]
-
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD []
+ENTRYPOINT ["octop-entrypoint.sh"]

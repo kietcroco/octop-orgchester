@@ -1,0 +1,20 @@
+diff --git a/src/octop/api/app.py b/src/octop/api/app.py
+index f37d428b..906ffb50 100644
+--- a/src/octop/api/app.py
++++ b/src/octop/api/app.py
+@@ -191,6 +191,7 @@ def build_app(server: OctopServer) -> FastAPI:
+         mobile,
+         ollama_models,
+         onnx_models,
++        orgchart,
+         plugins,
+         preferences,
+         proactive_care,
+@@ -240,6 +241,7 @@ def build_app(server: OctopServer) -> FastAPI:
+             _RouterMount(user_roles.router, "/api/users/roles", ["users"]),
+             _RouterMount(user_groups.router, "/api/user-groups", ["users"]),
+             _RouterMount(agencies.router, "/api/agencies", ["agencies"]),
++            _RouterMount(orgchart.router, "/api", ["org-chart"]),
+             _RouterMount(users.router, "/api/users", ["users"]),
+             _RouterMount(agents.router, "/api/agents", ["agents"]),
+             _RouterMount(agent_tools.router, "/api", ["agents"]),

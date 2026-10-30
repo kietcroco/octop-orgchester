@@ -1,20 +1,47 @@
 # =============================================================================
 # Octop-Orchester — Docker Compose
 #
-# Run from this folder:
-#   docker compose up -d --build
-#   OCTOP_PORT=9090 docker compose up -d --build
+# Run from this folder — one command builds both images and starts the app:
+#   docker compose up -d
+#   OCTOP_PORT=9090 docker compose up -d
 #
-# Build context is the repo root so the Dockerfile can copy from octop/.
+# Two builds, in order:
+#   octop-base  — upstream `octop/docker/Dockerfile`, verbatim, from the
+#                 checked-out submodule. Never pulled from a registry, so the
+#                 image always matches the source you have.
+#   octop       — this layer on top of it (patches + rebuilt dashboard).
+#
+# The ordering comes from `additional_contexts`: the base is passed to the
+# custom build as a buildx named context, so BuildKit builds it first and the
+# custom Dockerfile can say `FROM` it. It also pins the base by content rather
+# than by tag, so a stale `octop-base:local` can never be silently reused.
+#
+# octop-base carries `deploy.replicas: 0` so it is built but never started —
+# running it would put a second Octop server on the network. Compose ignores
+# replicas outside Swarm, except for this: it keeps the container from being
+# created. Use `docker compose build` to only build, `up -d` to build + run.
+#
 # Make sure the submodule is checked out first:
 #   git submodule update --init --depth 1 octop
 # =============================================================================
 
 services:
+  octop-base:
+    build:
+      context: ../octop
+      dockerfile: docker/Dockerfile
+    image: octop-base:local
+    deploy:
+      replicas: 0
+
   octop:
     build:
       context: ..
       dockerfile: octop-orchester/Dockerfile
+      args:
+        OCTOP_BASE: octop-base:local
+      additional_contexts:
+        "octop-base:local": service:octop-base
     image: octop-orchester:latest
     container_name: octop-orchester
     restart: unless-stopped
@@ -25,9 +52,23 @@ services:
     ports:
       - "${OCTOP_PORT:-8088}:${OCTOP_PORT:-8088}"
     volumes:
-      - ${OCTOP_DATA:-~/.octop-orchester}:/data/.octop
+      # Whole /data on the host, not just the state folder: .octop (config, DB,
+      # agents) plus .cache (uv wheels, Playwright browsers) — so packages and
+      # browsers fetched at runtime are still there after a rebuild.
+      # Relative to this file, so the default lands in <repo>/data.
+      - ${OCTOP_DATA:-../data}:/data
+      # Python venv as a named volume: Docker copies the image's ~1.3G baseline
+      # into it on first creation, and packages installed from the UI land in
+      # it, so they survive `docker compose rm` / `up` / a container delete.
+      # A named volume rather than a host folder because Docker seeds it from
+      # the image; an empty host folder would shadow the baseline venv and
+      # 56k files are slow to serve over a Windows bind mount.
+      # Only `docker compose down -v` or `docker volume rm` clears it.
+      - octop-venv:/app/.venv
     environment:
       - HOME=/data
+      # Keep Playwright's browsers under /data so they persist like the venv
+      - PLAYWRIGHT_BROWSERS_PATH=/data/.cache/ms-playwright
       - OCTOP_BIND_HOST=0.0.0.0
       - OCTOP_PORT=${OCTOP_PORT:-8088}
       - OCTOP_LOG_LEVEL=${OCTOP_LOG_LEVEL:-info}
@@ -44,3 +85,14 @@ services:
       - OCTOP_DATABASE_PASSWORD=${OCTOP_DATABASE_PASSWORD:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY:-}
+      # Comma-separated hosts the webhook SSRF guard lets through. Default keeps
+      # the guard strict; set it to host.docker.internal to point an endpoint at
+      # a receiver on your own machine (see scripts/webhook_receiver.py).
+      - OCTOP_WEBHOOK_ALLOW_HOSTS=${OCTOP_WEBHOOK_ALLOW_HOSTS:-}
+
+volumes:
+  # Holds /app/.venv. Name it so `docker volume ls` is readable and the data is
+  # clearly the one to keep. Remove it after upgrading the base image if you
+  # want a clean baseline (the next `up` re-seeds from the image).
+  octop-venv:
+    name: octop-orchester-venv

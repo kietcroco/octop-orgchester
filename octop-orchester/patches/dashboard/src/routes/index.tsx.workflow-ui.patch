@@ -1,0 +1,29 @@
+diff --git a/dashboard/src/routes/index.tsx b/dashboard/src/routes/index.tsx
+index 679234ed..0edbdaa7 100644
+--- a/dashboard/src/routes/index.tsx
++++ b/dashboard/src/routes/index.tsx
+@@ -5,6 +5,7 @@ import { Navigate, useLocation } from "react-router-dom";
+ const ExpertsPage = lazy(() => import("../pages/Experts"));
+ const AgenciesPage = lazy(() => import("../pages/Agencies"));
+ const OrgChartPage = lazy(() => import("../pages/OrgChart"));
++const FlowsPage = lazy(() => import("../pages/Flows"));
+ const CronJobsPage = lazy(() => import("../pages/Control/CronJobs"));
+ const ConnectorsPage = lazy(() => import("../pages/Agent/Connectors"));
+ const SkillPackagesPage = lazy(() => import("../pages/SkillPackages"));
+@@ -54,6 +55,7 @@ export const pathToKey: Record<string, string> = {
+   "/experts": "experts",
+   "/agencies": "agencies",
+   "/org-chart": "org-chart",
++  "/flows": "flows",
+   "/tasks": "tasks",
+   "/connectors": "connectors",
+   "/skill-packages": "skill-packages",
+@@ -159,6 +161,8 @@ export const routeConfigs: RouteConfig[] = [
+   { path: "/agencies", element: <AgenciesPage /> },
+   { path: "/agencies/:agencyId", element: <AgenciesPage /> },
+   { path: "/org-chart", element: <OrgChartPage /> },
++  { path: "/flows", element: <FlowsPage /> },
++  { path: "/flows/:flowId", element: <FlowsPage /> },
+   { path: "/tasks", element: <CronJobsPage /> },
+   { path: "/connectors", element: <ConnectorsPage /> },
+   { path: "/skill-packages", element: <SkillPackagesPage /> },

@@ -1,0 +1,79 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.endpointList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.endpointRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border: 1px solid var(--fn-border-secondary);
+  border-radius: 10px;
+  background: var(--fn-bg-container);
+}
+
+.endpointBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.endpointHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.endpointName {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.endpointUrl {
+  margin-top: 4px;
+  color: var(--fn-text-tertiary);
+  font-size: 13px;
+  word-break: break-all;
+}
+
+.tagRow {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.endpointActions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+.secretBox {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.deliveryTable {
+  margin-top: 12px;
+}
+
+.statusCell {
+  font-size: 12px;
+  font-family: var(--fn-font-mono);
+}

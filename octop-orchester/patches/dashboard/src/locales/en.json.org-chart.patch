@@ -1,0 +1,47 @@
+diff --git a/dashboard/src/locales/en.json b/dashboard/src/locales/en.json
+index 335929a3..99ad189a 100644
+--- a/dashboard/src/locales/en.json
++++ b/dashboard/src/locales/en.json
+@@ -255,6 +255,7 @@
+     "control": "Control",
+     "experts": "Experts",
+     "agencies": "Agencies",
++    "orgChart": "Org chart",
+     "tasks": "Automation",
+     "connectors": "Connectors",
+     "bridge": "Cloud collab",
+@@ -826,6 +827,34 @@
+     "back": "All agencies",
+     "members": "Members"
+   },
++  "org": {
++    "title": "Organization chart",
++    "subtitle": "How departments, experts and teams fit together.",
++    "searchPlaceholder": "Search experts and agencies",
++    "resetLayout": "Reset layout",
++    "resetLayoutTitle": "Forget the positions you dragged and lay the chart out again",
++    "empty": "Nothing to chart yet",
++    "emptyHint": "Create a department and add experts to see the organization here.",
++    "createFirstAgency": "Create a department",
++    "loadFailed": "Could not load the organization chart",
++    "summary": {
++      "agencies": "Departments",
++      "agents": "Experts",
++      "agentsActive": "Running",
++      "teams": "Teams",
++      "channels": "Channels"
++    },
++    "node": {
++      "organization": "Organization",
++      "agency": "Department",
++      "agent": "Expert",
++      "unassigned": "Unassigned",
++      "team": "Team member",
++      "teamHost": "Team host",
++      "channels": "Channels",
++      "noModel": "No model"
++    }
++  },
+   "experts": {
+     "subtitle": "Spin up a pre-configured agent (with identity / soul / heartbeat baked in) from a scenario template. Each expert ships with its own system prompt — once created, just bind a provider and start it.",
+     "loadFailed": "Failed to load experts",

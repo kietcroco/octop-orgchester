@@ -1,0 +1,36 @@
+diff --git a/dashboard/src/layouts/sidebarNav.tsx b/dashboard/src/layouts/sidebarNav.tsx
+index ed418b0c..3a334435 100644
+--- a/dashboard/src/layouts/sidebarNav.tsx
++++ b/dashboard/src/layouts/sidebarNav.tsx
+@@ -19,6 +19,7 @@ import {
+   GraduationCap,
+   Building2,
+   Network,
++  Workflow,
+   Shield,
+   PanelsTopLeft,
+ } from "lucide-react";
+@@ -70,6 +71,7 @@ export const SIDEBAR_NAV_KEYS = [
+   "chat",
+   "agencies",
+   "org-chart",
++  "flows",
+   "experts",
+   "tasks",
+   "token-usage",
+@@ -182,6 +184,15 @@ export function buildNavSections(
+       labelKey: "nav.orgChart",
+     });
+   }
++  // Same gate as Agencies: any signed-in user can build flows.
++  if (user) {
++    topItems.push({
++      key: "flows",
++      path: "/flows",
++      icon: <Workflow size={iconSize} strokeWidth={iconStroke} />,
++      labelKey: "nav.flows",
++    });
++  }
+   if (navAllowed(user, "experts")) {
+     topItems.push({
+       key: "experts",

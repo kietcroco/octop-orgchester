@@ -1,0 +1,22 @@
+diff --git a/src/octop/api/routers/preferences.py b/src/octop/api/routers/preferences.py
+index 2459fd1c..8bb50aab 100644
+--- a/src/octop/api/routers/preferences.py
++++ b/src/octop/api/routers/preferences.py
+@@ -57,7 +57,7 @@ class SidebarNavLayoutModel(BaseModel):
+ 
+ 
+ class PreferencesResponse(BaseModel):
+-    locale: str = Field(description="UI locale: `zh` or `en`.")
++    locale: str = Field(description="UI locale: `zh`, `en`, or `vi`.")
+     remote_browser_bookmarks: list[RemoteBrowserBookmarkModel] = Field(
+         default_factory=list,
+         description="Saved URLs for the remote-browser page.",
+@@ -78,7 +78,7 @@ class PreferencesResponse(BaseModel):
+ 
+ 
+ class PatchPreferencesBody(BaseModel):
+-    locale: str | None = Field(default=None, description="UI locale: `zh` or `en`.")
++    locale: str | None = Field(default=None, description="UI locale: `zh`, `en`, or `vi`.")
+     remote_browser_bookmarks: list[RemoteBrowserBookmarkModel] | None = Field(
+         default=None,
+         description="Replace remote-browser bookmarks (max 12).",

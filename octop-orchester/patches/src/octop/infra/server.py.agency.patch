@@ -1,0 +1,28 @@
+diff --git a/src/octop/infra/server.py b/src/octop/infra/server.py
+index e55687ca..55939ce0 100644
+--- a/src/octop/infra/server.py
++++ b/src/octop/infra/server.py
+@@ -36,6 +36,7 @@ from octop.infra.setup.wizard_tokens import WizardTokenStore
+ from octop.infra.users.manager import UserManager
+ from octop.infra.utils.paths import PathLayout
+ from octop.infra.utils.process_resources import ensure_nofile_limit
++from octop.overlay.migrate import run_overlay_migrations
+ 
+ if TYPE_CHECKING:
+     from octop.infra.auth.ldap.service import LdapAuthService
+@@ -444,6 +445,7 @@ class OctopServer:
+ 
+         db = open_database(config, self.paths)
+         run_migrations(db)
++        run_overlay_migrations(db)
+         self.services = build_shared_services(db=db, paths=self.paths, config=config)
+         from octop.infra.auth.captcha import boot_from_services  # noqa: PLC0415
+ 
+@@ -468,6 +470,7 @@ class OctopServer:
+         db = open_database(config, self.paths)
+         try:
+             run_migrations(db)
++            run_overlay_migrations(db)
+         except Exception:
+             db.close()
+             raise

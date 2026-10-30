@@ -1,0 +1,12 @@
+diff --git a/dashboard/src/utils/permissions.ts b/dashboard/src/utils/permissions.ts
+index 66185b0..607cd74 100644
+--- a/dashboard/src/utils/permissions.ts
++++ b/dashboard/src/utils/permissions.ts
+@@ -133,6 +133,7 @@ export const USERS_TAB_PERMISSIONS = {
+ export const ADVANCED_TAB_PERMISSIONS = {
+   "env-vars": "envs",
+   observability: "observability",
++  webhooks: "observability",
+   backup: "backup",
+   https: "tls",
+   updates: "update",

@@ -1,0 +1,12 @@
+diff --git a/dashboard/src/locales/en.json b/dashboard/src/locales/en.json
+index 0132883f..b7326353 100644
+--- a/dashboard/src/locales/en.json
++++ b/dashboard/src/locales/en.json
+@@ -4208,6 +4208,7 @@
+     "passwordTooWeak": "Password is too weak. Choose a stronger one",
+     "langZh": "中文",
+     "langEn": "English",
++    "langVi": "Tiếng Việt",
+     "layoutMode": "Layout",
+     "layoutModeHint": "Classic keeps two rails; Minimal merges navigation and records into the left sidebar.",
+     "layoutClassic": "Classic",

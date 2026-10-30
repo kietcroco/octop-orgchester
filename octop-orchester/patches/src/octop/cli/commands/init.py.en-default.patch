@@ -1,0 +1,14 @@
+diff --git a/src/octop/cli/commands/init.py b/src/octop/cli/commands/init.py
+index b2857f87..532d00ee 100644
+--- a/src/octop/cli/commands/init.py
++++ b/src/octop/cli/commands/init.py
+@@ -124,6 +124,9 @@ def init(
+                 password_hash=hash_password(password or ""),
+                 role="admin",
+                 display_name=display_name,
++                # A fresh install opens in English; the admin can switch language
++                # in the UI afterwards. Without this the repo default ("zh") wins.
++                locale="en",
+             )
+     finally:
+         db.close()

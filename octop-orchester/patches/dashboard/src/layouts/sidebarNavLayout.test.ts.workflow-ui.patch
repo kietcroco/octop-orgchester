@@ -1,0 +1,12 @@
+diff --git a/dashboard/src/layouts/sidebarNavLayout.test.ts b/dashboard/src/layouts/sidebarNavLayout.test.ts
+index 34034cba..6bda7142 100644
+--- a/dashboard/src/layouts/sidebarNavLayout.test.ts
++++ b/dashboard/src/layouts/sidebarNavLayout.test.ts
+@@ -38,6 +38,7 @@ describe("sidebarNavLayout", () => {
+       "chat",
+       "agencies",
+       "org-chart",
++      "flows",
+       "experts",
+       "tasks",
+       "token-usage",

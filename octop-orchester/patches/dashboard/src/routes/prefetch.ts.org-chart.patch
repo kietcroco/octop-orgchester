@@ -1,0 +1,12 @@
+diff --git a/dashboard/src/routes/prefetch.ts b/dashboard/src/routes/prefetch.ts
+index b931b5f8..dda4d447 100644
+--- a/dashboard/src/routes/prefetch.ts
++++ b/dashboard/src/routes/prefetch.ts
+@@ -3,6 +3,7 @@ const ROUTE_PREFETCHERS: Record<string, () => Promise<unknown>> = {
+   "/chat": () => import("../pages/Chat"),
+   "/experts": () => import("../pages/Experts"),
+   "/agencies": () => import("../pages/Agencies"),
++  "/org-chart": () => import("../pages/OrgChart"),
+   "/tasks": () => import("../pages/Control/CronJobs"),
+   "/connectors": () => import("../pages/Agent/Connectors"),
+   "/skill-packages": () => import("../pages/SkillPackages"),

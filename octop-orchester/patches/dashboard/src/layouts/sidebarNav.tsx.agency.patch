@@ -1,0 +1,37 @@
+diff --git a/dashboard/src/layouts/sidebarNav.tsx b/dashboard/src/layouts/sidebarNav.tsx
+index 1cbc4f74..086aa0be 100644
+--- a/dashboard/src/layouts/sidebarNav.tsx
++++ b/dashboard/src/layouts/sidebarNav.tsx
+@@ -17,6 +17,7 @@ import {
+   Package,
+   HardDrive,
+   GraduationCap,
++  Building2,
+   Shield,
+   PanelsTopLeft,
+ } from "lucide-react";
+@@ -66,6 +67,7 @@ export interface NavSection {
+ /** Every nav item key the sidebar can show. Keep in sync with `SIDEBAR_NAV_KEYS` in `octop.infra.users.preferences`. */
+ export const SIDEBAR_NAV_KEYS = [
+   "chat",
++  "agencies",
+   "experts",
+   "tasks",
+   "token-usage",
+@@ -159,6 +161,16 @@ export function buildNavSections(
+       labelKey: "nav.chat",
+     },
+   ];
++  // No permission gate: any signed-in user manages agencies.
++  // Listed before Experts: a department exists before the experts in it.
++  if (user) {
++    topItems.push({
++      key: "agencies",
++      path: "/agencies",
++      icon: <Building2 size={iconSize} strokeWidth={iconStroke} />,
++      labelKey: "nav.agencies",
++    });
++  }
+   if (navAllowed(user, "experts")) {
+     topItems.push({
+       key: "experts",

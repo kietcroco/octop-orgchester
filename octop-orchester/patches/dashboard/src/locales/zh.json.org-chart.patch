@@ -1,0 +1,47 @@
+diff --git a/dashboard/src/locales/zh.json b/dashboard/src/locales/zh.json
+index b3119a8b..9c887668 100644
+--- a/dashboard/src/locales/zh.json
++++ b/dashboard/src/locales/zh.json
+@@ -255,6 +255,7 @@
+     "control": "控制",
+     "experts": "专家",
+     "agencies": "部门",
++    "orgChart": "组织架构",
+     "tasks": "自动化",
+     "connectors": "连接器",
+     "bridge": "云端协同",
+@@ -826,6 +827,34 @@
+     "back": "全部部门",
+     "members": "成员"
+   },
++  "org": {
++    "title": "组织架构图",
++    "subtitle": "查看部门、专家与团队之间的关系。",
++    "searchPlaceholder": "搜索专家或部门",
++    "resetLayout": "重新布局",
++    "resetLayoutTitle": "清除拖拽位置并按默认方式重新排列",
++    "empty": "暂无可展示的内容",
++    "emptyHint": "先创建部门并加入专家，这里就会显示组织架构。",
++    "createFirstAgency": "创建部门",
++    "loadFailed": "加载组织架构失败",
++    "summary": {
++      "agencies": "部门",
++      "agents": "专家",
++      "agentsActive": "运行中",
++      "teams": "团队",
++      "channels": "渠道"
++    },
++    "node": {
++      "organization": "组织",
++      "agency": "部门",
++      "agent": "专家",
++      "unassigned": "未分配",
++      "team": "团队成员",
++      "teamHost": "团队主控",
++      "channels": "渠道",
++      "noModel": "未设置模型"
++    }
++  },
+   "experts": {
+     "subtitle": "基于已配置的场景模板,一键创建预置身份/灵魂/心跳的智能体。每个专家自带 system prompt,新建后再绑定 provider 并启动即可。",
+     "loadFailed": "加载专家失败",

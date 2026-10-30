@@ -1,0 +1,55 @@
+diff --git a/dashboard/src/locales/en.json b/dashboard/src/locales/en.json
+index 0132883f..5ab6e6c2 100644
+--- a/dashboard/src/locales/en.json
++++ b/dashboard/src/locales/en.json
+@@ -254,6 +254,7 @@
+     "common": "Common",
+     "control": "Control",
+     "experts": "Experts",
++    "agencies": "Agencies",
+     "tasks": "Automation",
+     "connectors": "Connectors",
+     "bridge": "Cloud collab",
+@@ -789,6 +790,42 @@
+     "ESTP": "Entrepreneur",
+     "ESFP": "Entertainer"
+   },
++  "agencies": {
++    "title": "Agencies",
++    "subtitle": "Group experts into departments and see the channels they touch.",
++    "create": "New agency",
++    "createTitle": "New agency",
++    "editTitle": "Edit agency",
++    "name": "Name",
++    "namePlaceholder": "e.g. Engineering",
++    "description": "Description",
++    "descriptionPlaceholder": "What does this team do?",
++    "color": "Color",
++    "save": "Save",
++    "cancel": "Cancel",
++    "delete": "Delete",
++    "deleteConfirm": "Delete this agency?",
++    "deleteConfirmDesc": "Only the grouping is removed. The experts themselves are kept.",
++    "empty": "No agencies yet",
++    "emptyHint": "Create one to group experts by department.",
++    "searchPlaceholder": "Search agencies",
++    "agentCount": "expert(s)",
++    "channelCount": "channel(s)",
++    "agents": "Experts",
++    "channels": "Channels",
++    "addAgents": "Add experts",
++    "removeAgent": "Remove from agency",
++    "noAgents": "No experts in this agency yet",
++    "noChannels": "No channels yet",
++    "agentAgencies": "Agencies",
++    "agentAgenciesPlaceholder": "Select agencies",
++    "nameTaken": "That name is already in use",
++    "loadFailed": "Could not load agencies",
++    "saveFailed": "Could not save the agency",
++    "deleteFailed": "Could not delete the agency",
++    "back": "All agencies",
++    "members": "Members"
++  },
+   "experts": {
+     "subtitle": "Spin up a pre-configured agent (with identity / soul / heartbeat baked in) from a scenario template. Each expert ships with its own system prompt — once created, just bind a provider and start it.",
+     "loadFailed": "Failed to load experts",

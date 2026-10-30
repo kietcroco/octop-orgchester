@@ -1,0 +1,36 @@
+diff --git a/dashboard/src/layouts/sidebarNav.tsx b/dashboard/src/layouts/sidebarNav.tsx
+index 086aa0be..ed418b0c 100644
+--- a/dashboard/src/layouts/sidebarNav.tsx
++++ b/dashboard/src/layouts/sidebarNav.tsx
+@@ -18,6 +18,7 @@ import {
+   HardDrive,
+   GraduationCap,
+   Building2,
++  Network,
+   Shield,
+   PanelsTopLeft,
+ } from "lucide-react";
+@@ -68,6 +69,7 @@ export interface NavSection {
+ export const SIDEBAR_NAV_KEYS = [
+   "chat",
+   "agencies",
++  "org-chart",
+   "experts",
+   "tasks",
+   "token-usage",
+@@ -171,6 +173,15 @@ export function buildNavSections(
+       labelKey: "nav.agencies",
+     });
+   }
++  // Same gate as Agencies: the chart is a read-only view of the same data.
++  if (user) {
++    topItems.push({
++      key: "org-chart",
++      path: "/org-chart",
++      icon: <Network size={iconSize} strokeWidth={iconStroke} />,
++      labelKey: "nav.orgChart",
++    });
++  }
+   if (navAllowed(user, "experts")) {
+     topItems.push({
+       key: "experts",

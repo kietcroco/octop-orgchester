@@ -1,0 +1,26 @@
+diff --git a/src/octop/infra/utils/locale.py b/src/octop/infra/utils/locale.py
+index 65270377..1c4bd9d2 100644
+--- a/src/octop/infra/utils/locale.py
++++ b/src/octop/infra/utils/locale.py
+@@ -4,10 +4,10 @@ from __future__ import annotations
+ 
+ from typing import Literal
+ 
+-Locale = Literal["zh", "en"]
++Locale = Literal["zh", "en", "vi"]
+ 
+ DEFAULT_LOCALE: Locale = "zh"
+-SUPPORTED_LOCALES: tuple[Locale, ...] = ("zh", "en")
++SUPPORTED_LOCALES: tuple[Locale, ...] = ("zh", "en", "vi")
+ 
+ 
+ def normalize_locale(raw: str | None) -> Locale:
+@@ -16,6 +16,8 @@ def normalize_locale(raw: str | None) -> Locale:
+     lower = raw.lower().replace("_", "-")
+     if lower.startswith("zh"):
+         return "zh"
++    if lower.startswith("vi"):
++        return "vi"
+     return "en"
+ 
+ 

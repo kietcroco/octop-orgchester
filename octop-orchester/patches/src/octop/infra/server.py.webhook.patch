@@ -1,0 +1,52 @@
+diff --git a/src/octop/infra/server.py b/src/octop/infra/server.py
+index 55939ce..0223063 100644
+--- a/src/octop/infra/server.py
++++ b/src/octop/infra/server.py
+@@ -327,6 +327,9 @@ class OctopServer:
+         self.subagent_catalog: SubagentCatalog | None = None
+         self.plugin_manager: PluginManager | None = None
+         self.wizard_tokens = WizardTokenStore(ttl_seconds=300)
++        self.webhook_store: Any = None
++        self.webhook_sink: Any = None
++        self.webhook_dispatcher: Any = None
+         self._started = False
+         self._started_at: int | None = None
+         self._sso_service: SsoService | None = None
+@@ -537,6 +540,19 @@ class OctopServer:
+             TrajectoryLiveBus(),
+         )
+ 
++        # ponytail: rebuilt per boot, not retargeted by rebind_control_plane — that
++        # path only runs while the DB is still empty, so no endpoint can exist yet.
++        from octop.overlay.webhook import (  # noqa: PLC0415
++            WebhookDispatcher,
++            WebhookSink,
++            WebhookStore,
++        )
++
++        self.webhook_store = WebhookStore(self.services.db, self.services.secret_repo)
++        self.webhook_sink = WebhookSink(self.webhook_store)
++        self.webhook_dispatcher = WebhookDispatcher(self.webhook_store)
++        trajectory_service.attach_sink(self.webhook_sink)
++
+         gateway = Gateway(
+             agent_manager=registry,
+             repos=self.services.repos,
+@@ -650,6 +666,7 @@ class OctopServer:
+             history_archive=history_archive,
+             bridge_manager=bridge_mgr,
+         )
++        await self.webhook_dispatcher.start()
+         from octop.infra.knowledge.gate import (  # noqa: PLC0415
+             warn_if_local_embedding_deps_missing,
+         )
+@@ -772,6 +789,9 @@ class OctopServer:
+                 await rt.user_manager.shutdown_all()
+                 if rt.history_archive is not None:
+                     rt.history_archive.store.close()
++            dispatcher = getattr(self, "webhook_dispatcher", None)
++            if dispatcher is not None:
++                await dispatcher.stop()
+             from octop.infra.backend.browse import dispose_all_browse_sessions
+ 
+             dispose_all_browse_sessions()

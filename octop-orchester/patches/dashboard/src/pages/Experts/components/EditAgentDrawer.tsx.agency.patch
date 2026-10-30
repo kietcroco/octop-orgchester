@@ -1,0 +1,20 @@
+diff --git a/dashboard/src/pages/Experts/components/EditAgentDrawer.tsx b/dashboard/src/pages/Experts/components/EditAgentDrawer.tsx
+index 30d28d26..dc549a9e 100644
+--- a/dashboard/src/pages/Experts/components/EditAgentDrawer.tsx
++++ b/dashboard/src/pages/Experts/components/EditAgentDrawer.tsx
+@@ -25,6 +25,7 @@ import {
+   isUploadedAvatarUrl,
+ } from "../../../components/AvatarPicker";
+ import ExpertColorPicker from "../../../components/ExpertColorPicker";
++import AgentAgencyPicker from "../../Agencies/components/AgentAgencyPicker";
+ import AgentTrajectoryField from "./AgentTrajectoryField";
+ import { workspaceApi } from "../../../api/modules/workspace";
+ import { skillPackagesApi } from "../../../api/modules/skillPackages";
+@@ -846,6 +847,7 @@ function EditAgentDrawerBody({
+                   onChange={setColorPalette}
+                 />
+               </Form.Item>
++              <AgentAgencyPicker agentId={agent.agent_id} />
+               <Form.Item
+                 name="name"
+                 label={t("experts.agentName")}

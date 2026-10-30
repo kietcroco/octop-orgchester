@@ -1,0 +1,37 @@
+diff --git a/dashboard/src/App.tsx b/dashboard/src/App.tsx
+index d278fadb..7561b20a 100644
+--- a/dashboard/src/App.tsx
++++ b/dashboard/src/App.tsx
+@@ -2,8 +2,10 @@ import { createGlobalStyle } from "antd-style";
+ import { ConfigProvider, theme as antdTheme } from "antd";
+ import zhCN from "antd/locale/zh_CN";
+ import enUS from "antd/locale/en_US";
++import viVN from "antd/locale/vi_VN";
+ import dayjs from "dayjs";
+ import "dayjs/locale/zh-cn";
++import "dayjs/locale/vi";
+ import { useEffect } from "react";
+ import DesktopWindowControls from "./components/DesktopWindowControls";
+ import {
+@@ -12,6 +14,7 @@ import {
+ } from "./hooks/useDesktopChrome";
+ import { BrowserRouter, Routes, Route } from "react-router-dom";
+ import { routerBasename } from "./utils/publicUrl";
++import { normalizeUiLocale } from "./utils/localePrefs";
+ import { useTranslation } from "react-i18next";
+ import MainLayout from "./layouts/MainLayout";
+ import LoginPage from "./pages/Login";
+@@ -51,9 +54,10 @@ function ThemedApp() {
+   // Make antd built-ins (Popconfirm OK/Cancel, Modal default footer, Empty,
+   // Pagination, DatePicker, Table… ) follow the current UI language.
+   // DatePicker month/weekday labels come from dayjs — keep it in sync too.
+-  const isZh = i18n.language?.toLowerCase().startsWith("zh") ?? false;
+-  const antdLocale = isZh ? zhCN : enUS;
+-  dayjs.locale(isZh ? "zh-cn" : "en");
++  const uiLocale = normalizeUiLocale(i18n.language);
++  const antdLocale =
++    uiLocale === "zh" ? zhCN : uiLocale === "vi" ? viVN : enUS;
++  dayjs.locale(uiLocale === "zh" ? "zh-cn" : uiLocale === "vi" ? "vi" : "en");
+ 
+   useUnauthorizedRedirect();
+ 

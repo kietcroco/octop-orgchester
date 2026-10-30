@@ -1,1 +1,5 @@
 .claude/settings.json
+
+# Octop runtime data (bind-mounted to /data in the container)
+data/
+
