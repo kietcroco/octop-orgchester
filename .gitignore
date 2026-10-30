@@ -3,3 +3,5 @@
 # Octop runtime data (bind-mounted to /data in the container)
 data/
 
+# Scratch area of the working agents; the docs live in octop-orchester/docs
+.worktree/

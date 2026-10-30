@@ -5,7 +5,7 @@
 | Phiên bản | 1.0 |
 | Ngày | 2026-10-30 |
 | Base | `octop/` @ `890111b7` (v0.9.16-824-g890111b7, tag v1.0.3b1) |
-| Tham chiếu | [`.worktree/org-chart/01-ORGCHART-SPEC.md`](../../.worktree/org-chart/01-ORGCHART-SPEC.md), [01-AGENCY-ARCHITECTURE.md](01-AGENCY-ARCHITECTURE.md), [README §4.12](../README.md) |
+| Tham chiếu | [01-AGENCY-ARCHITECTURE.md](01-AGENCY-ARCHITECTURE.md), [README §4.12](../README.md) |
 
 ## 1. Mục đích
 

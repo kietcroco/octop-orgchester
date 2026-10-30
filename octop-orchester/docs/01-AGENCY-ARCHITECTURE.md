@@ -5,7 +5,7 @@
 | Phiên bản | 1.0 |
 | Ngày | 2026-10-30 |
 | Base | `octop/` @ `890111b7` (v0.9.16-824-g890111b7, tag v1.0.3b1) |
-| Tham chiếu | [`.worktree/agency-menu/01-AGENCY-SPEC.md`](../../.worktree/agency-menu/01-AGENCY-SPEC.md), [README §4.9](../README.md) |
+| Tham chiếu | [README §4.9](../README.md), [00-PATCH-REGISTRY](00-PATCH-REGISTRY.md) |
 
 ## 1. Mục đích
 
