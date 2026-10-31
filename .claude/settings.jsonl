@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "_comment_vi": "Cấu hình Hooks của hệ thống AIDLC. Mỗi hook là một script Node ESM trong .claude/hooks/. Xem .claude/hooks/README.md để biết vai trò từng hook.",
+  "hooks": {
+    
+  }/*,
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:20128/v1",
+    "ANTHROPIC_AUTH_TOKEN": "sk-fd8b614451e10c1d-nb96p7-38487b4e",
+    "ANTHROPIC_DEFAULT_FABLE_MODEL": "deploy/deepseek-ai/deepseek-v4.1-flash",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "deploy/deepseek-ai/deepseek-v4.1-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "deploy/deepseek-ai/deepseek-v4.1-flash",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "literouter/deepseek-v4-flash:free"
+  }*/
+}

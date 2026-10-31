@@ -10,6 +10,22 @@ Tôi không cần một bản thiết kế chung chung. Tôi cần bạn đọc 
 
 **Bạn không được giả định rằng bạn đã biết kiến trúc của hai repository. Source code và bằng chứng runtime mới là nguồn sự thật.**
 
+## 0.1. Tài liệu kiến trúc chức năng đã thực hiện
+
+Ba chức năng đầu tiên của thứ tự triển khai (§7) đã triển khai xong. Mỗi chức năng có một tài liệu kiến trúc riêng trong `octop-orchester/docs/`:
+
+| Chức năng | Tài liệu | Nội dung |
+|---|---|---|
+| **Phòng ban (Agency)** | [`octop-orchester/docs/01-AGENCY-ARCHITECTURE.md`](octop-orchester/docs/01-AGENCY-ARCHITECTURE.md) | Mục đích; kiến trúc 4 tầng; cấu trúc folder; 8 API + hàm nội bộ + component; schema `agency`/`agency_member`; overlay migration + ledger riêng; 10 patch / 14 file mới; kiểm thử; rủi ro |
+| **Sơ đồ tổ chức (Org Chart)** | [`octop-orchester/docs/02-ORGCHART-ARCHITECTURE.md`](octop-orchester/docs/02-ORGCHART-ARCHITECTURE.md) | Mục đích; kiến trúc một-endpoint; ánh xạ Orchester → Octop; cấu trúc folder; `GET /api/org-graph` + contract `{nodes,edges,summary}`; layout thuần; 11 patch / 7 file mới; kiểm thử; rủi ro |
+| **Webhook sự kiện agent** | [`octop-orchester/docs/03-WEBHOOK-ARCHITECTURE.md`](octop-orchester/docs/03-WEBHOOK-ARCHITECTURE.md) | Mục đích; đường ống 3 khối; outbox + retry + HMAC-SHA256; 8 API; ERD `webhook_endpoint`/`webhook_delivery`; header tuỳ chỉnh; mapping 14 loại event; 7 patch / 10 file mới; kiểm thử; rủi ro |
+
+**Sổ đăng ký patch và kiểm tra lỗi thời** — [`octop-orchester/docs/00-PATCH-REGISTRY.md`](octop-orchester/docs/00-PATCH-REGISTRY.md): patch id ↔ file ↔ commit, sha256 upstream của từng file, và script `patch_status.py` để biết patch nào đã lỗi thời khi Octop lên version. Đọc tài liệu này trước khi rebase.
+
+Phụ thuộc: **Org Chart** và **Webhook** đều cần **Agency** trước (bảng `agency`/`agency_member`, overlay migration runner) — đọc tài liệu Agency trước.
+
+Kiến trúc chi tiết từng chức năng nằm ở `octop-orchester/docs/` (`01-AGENCY`, `02-ORGCHART`, `03-WEBHOOK`, `04-FLOWS`; trạng thái và cách tiếp tục Flows: `05-FLOWS-NODE-GUIDE`).
+
 ## 1. Mục tiêu và workspace
 
 Tôi có ba thư mục cùng cấp:
